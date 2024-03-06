@@ -49,6 +49,5 @@ if __name__ == '__main__':
         print("Published:", entry['published'])
         print("Summary:", entry['summary'])
         print("Content:", entry['content'])
-        print()
 
 
