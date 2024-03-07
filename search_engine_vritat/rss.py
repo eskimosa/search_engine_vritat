@@ -3,6 +3,7 @@ import ssl
 import requests
 from bs4 import BeautifulSoup
 import json
+import pandas as pd
 
 
 if hasattr(ssl, '_create_unverified_context'):
@@ -18,7 +19,7 @@ def extract_article_content(url):
     p_content = []
     for p in paragraphs:
         p_content.append(p.text)
-    return p_content
+    return '\n'.join(p_content)
 
 
 def extract_news_from_rss(rss_url):
@@ -26,7 +27,6 @@ def extract_news_from_rss(rss_url):
     for url in rss_url:
         feed = feedparser.parse(url)
         feed_category = feed.feed.title
-        # news_entries = []
         for entry in feed.entries:
             news_entry = {
                 'feed_category': feed_category,
@@ -37,9 +37,9 @@ def extract_news_from_rss(rss_url):
             }
             article_content = extract_article_content(entry.link)
             news_entry['content'] = article_content
-            # news_entries.append(news_entry)
             all_news.append(news_entry)
-    return all_news
+    df = pd.DataFrame(all_news)
+    return df
 
 
 if __name__ == '__main__':
@@ -48,13 +48,15 @@ if __name__ == '__main__':
 
     urls = json.loads(urls_data)
     rss_urls = urls['urls']
-    news = extract_news_from_rss(rss_urls)
-    for entry in news:
+    news_df = extract_news_from_rss(rss_urls)
+    print(news_df)
+
+'''    for entry in news:
         print("Category:", entry['feed_category'])
         print("Title:", entry['title'])
         print("Link:", entry['link'])
         print("Published:", entry['published'])
         print("Summary:", entry['summary'])
-        print("Content:", entry['content'])
+        print("Content:", entry['content'])'''
 
 
