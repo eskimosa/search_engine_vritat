@@ -2,6 +2,7 @@ import feedparser
 import ssl
 import requests
 from bs4 import BeautifulSoup
+import json
 
 
 if hasattr(ssl, '_create_unverified_context'):
@@ -21,29 +22,35 @@ def extract_article_content(url):
 
 
 def extract_news_from_rss(rss_url):
-    feed = feedparser.parse(rss_url)
-
-    news_entries = []
-    for entry in feed.entries:
-        news_entry = {
-            'title': entry.title,
-            'link': entry.link,
-            'published': entry.published,
-            'summary': entry.summary
-        }
-
-        article_content = extract_article_content(entry.link)
-        news_entry['content'] = article_content
-
-        news_entries.append(news_entry)
-
-    return news_entries
+    all_news = []
+    for url in rss_url:
+        feed = feedparser.parse(url)
+        feed_category = feed.feed.title
+        # news_entries = []
+        for entry in feed.entries:
+            news_entry = {
+                'feed_category': feed_category,
+                'title': entry.title,
+                'link': entry.link,
+                'published': entry.published,
+                'summary': entry.summary
+            }
+            article_content = extract_article_content(entry.link)
+            news_entry['content'] = article_content
+            # news_entries.append(news_entry)
+            all_news.append(news_entry)
+    return all_news
 
 
 if __name__ == '__main__':
-    rss_url = 'https://www.lavanguardia.com/rss/local/barcelona.xml'
-    news = extract_news_from_rss(rss_url)
+    with open('urls.json', 'r') as file:
+        urls_data = file.read()
+
+    urls = json.loads(urls_data)
+    rss_urls = urls['urls']
+    news = extract_news_from_rss(rss_urls)
     for entry in news:
+        print("Category:", entry['feed_category'])
         print("Title:", entry['title'])
         print("Link:", entry['link'])
         print("Published:", entry['published'])
