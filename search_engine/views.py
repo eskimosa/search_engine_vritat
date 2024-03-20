@@ -23,3 +23,7 @@ class NewsAPIView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors)
 
+
+class NewsViewSet(APIView):
+    queryset = News.objects.all()
+    serializer = NewsSerializer

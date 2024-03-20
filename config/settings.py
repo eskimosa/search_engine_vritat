@@ -40,9 +40,14 @@ INSTALLED_APPS = [
 
     # 3rd party app
     'rest_framework',
+    'corsheaders',
 
     'search_engine',
 ]
+
+CORS_ALLOWED_ORIGINS = ['http://localhost:8000/api/news/',
+                        'http://localhost:8080',
+                        ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -52,6 +57,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -127,7 +134,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-REST_FRAMEWORK = {
+'''REST_FRAMEWORK = {
     'DATE_FORMAT': "%d/%m/%Y",
 
-}
+}'''

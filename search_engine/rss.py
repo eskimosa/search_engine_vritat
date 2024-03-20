@@ -27,12 +27,14 @@ def convert_published_date(date):
     return formatted_date
 
 
+
 def extract_news_from_rss(rss_url):
     all_news = []
     for url in rss_url:
         feed = feedparser.parse(url)
         category = feed.feed.title
         for entry in feed.entries:
+            # entry_date = datetime.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %z")
             published_date = convert_published_date(entry.published)
             news_entry = {
                 'category': category,
