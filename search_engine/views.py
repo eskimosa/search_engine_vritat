@@ -20,10 +20,6 @@ class NewsAPIView(APIView):
         serializer = NewsSerializer(data=news_list, many=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors)
+        return Response(serializer.data)
+        # return Response(serializer.errors)
 
-
-class NewsViewSet(APIView):
-    queryset = News.objects.all()
-    serializer = NewsSerializer
