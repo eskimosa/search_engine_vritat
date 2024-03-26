@@ -1,11 +1,19 @@
 version: '3.8'
 
 services:
-  web:
+  backend:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/vritat
     ports:
       - "8000:8000"
+    depends_on:
+      - frontend
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+
 

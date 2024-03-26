@@ -4,7 +4,6 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-
 if hasattr(ssl, '_create_unverified_context'):
     ssl._create_default_https_context = ssl._create_unverified_context
 
@@ -25,7 +24,6 @@ def convert_published_date(date):
     date_obj = datetime.strptime(date, '%d %b %Y %H:%M:%S %z')
     formatted_date = date_obj.strftime('%Y-%m-%d')
     return formatted_date
-
 
 
 def extract_news_from_rss(rss_url):

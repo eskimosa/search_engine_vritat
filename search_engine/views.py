@@ -1,5 +1,3 @@
-from django.shortcuts import render
-from .models import News
 from .serializer import NewsSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import APIView
@@ -20,6 +18,8 @@ class NewsAPIView(APIView):
         serializer = NewsSerializer(data=news_list, many=True)
         if serializer.is_valid():
             serializer.save()
+        else:
+            print(Response(serializer.errors))
         return Response(serializer.data)
-        # return Response(serializer.errors)
+
 

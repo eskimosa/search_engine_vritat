@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { sortBy } from 'lodash';
+
 
 function App() {
   const [data, setData] = useState([]);
@@ -10,6 +12,7 @@ function App() {
 
   const fetchData = async () => {
     try {
+      console.log("fetching data")
       const response = await axios.get('http://localhost:8000/api/news/');
       setData(response.data);
     } catch (error) {
@@ -18,8 +21,8 @@ function App() {
   };
 
   return (
-    <div>
-      <table>
+    <div className='table-container'>
+      <table style={{overflow: 'auto', maxWidth: '100vw'}}>
         <thead>
           <tr>
             <th>Category</th>
@@ -34,9 +37,9 @@ function App() {
           {data.map((item, index) => (
             <tr key={index}>
               <td>{item.category}</td>
-              <td>{item.title}</td>
-              <td>{item.summary}</td>
-              <td>{item.content}</td>
+              <td style={{overflow: 'auto', maxWidth: '30vw'}}>{item.title}</td>
+              <td style={{overflow: 'auto', maxWidth: '30vw'}}>{item.summary}</td>
+              <td style={{overflow: 'auto', maxWidth: '300vw'}}>{item.content}</td>
               <td>{item.published}</td>
               <td><a href={item.link}>Read more</a></td>
             </tr>
