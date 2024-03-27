@@ -3,6 +3,7 @@ import ssl
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from .sentiment_analysis import sentiment_rate
 
 if hasattr(ssl, '_create_unverified_context'):
     ssl._create_default_https_context = ssl._create_unverified_context
@@ -32,17 +33,19 @@ def extract_news_from_rss(rss_url):
         feed = feedparser.parse(url)
         category = feed.feed.title
         for entry in feed.entries:
-            # entry_date = datetime.strptime(entry.published, "%a, %d %b %Y %H:%M:%S %z")
-            published_date = convert_published_date(entry.published)
-            news_entry = {
-                'category': category,
-                'title': entry.title,
-                'link': entry.link,
-                'published': published_date,
-                'summary': entry.summary,
-                'content': extract_article_content(entry.link)
-            }
-            all_news.append(news_entry)
+            sentiment = sentiment_rate(entry.link)
+            if sentiment > 0.3:
+                published_date = convert_published_date(entry.published)
+                news_entry = {
+                    'category': category,
+                    'title': entry.title,
+                    'link': entry.link,
+                    'published': published_date,
+                    'summary': entry.summary,
+                    'content': extract_article_content(entry.link),
+                    'sentiment': sentiment
+                }
+                all_news.append(news_entry)
     return all_news
 
 

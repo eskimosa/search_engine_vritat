@@ -31,6 +31,7 @@ function App() {
             <th>Content</th>
             <th>Published</th>
             <th>Link</th>
+            <th>Sentiment</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +43,7 @@ function App() {
               <td style={{overflow: 'auto', maxWidth: '300vw'}}>{item.content}</td>
               <td>{item.published}</td>
               <td><a href={item.link}>Read more</a></td>
+              <td>{item.sentiment}</td>
             </tr>
           ))}
         </tbody>

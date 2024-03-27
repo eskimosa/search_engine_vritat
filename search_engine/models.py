@@ -9,6 +9,7 @@ class News(models.Model):
     published = models.DateField()
     summary = models.TextField()
     content = models.TextField()
+    sentiment = models.FloatField(default=0)
 
     def __str__(self):
         return self.title
