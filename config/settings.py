@@ -135,6 +135,12 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+    }
+}
+
 '''REST_FRAMEWORK = {
     'DATE_FORMAT': "%d/%m/%Y",
 
