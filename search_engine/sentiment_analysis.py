@@ -1,6 +1,9 @@
 from textblob import TextBlob
 from newspaper import Article
 
+import nltk
+nltk.download('punkt')
+
 
 def sentiment_rate(url):
     article = Article(url)
