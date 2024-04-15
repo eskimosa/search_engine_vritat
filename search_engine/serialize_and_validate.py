@@ -1,6 +1,7 @@
 from rest_framework import status
 from .serializer import NewsSerializer
 from rest_framework.response import Response
+from .models import News
 
 
 def serialize_and_validate(data):

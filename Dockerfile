@@ -1,6 +1,10 @@
 FROM python:latest
 
 ENV PYTHONUNBUFFERED=1
+# Install PostgreSQL client
+RUN apt-get update && \
+    apt-get install -y postgresql-client
+
 # Set the working directory in the container
 WORKDIR /vritat
 
