@@ -1,53 +1,98 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from '../DataTable/DataTable';
 import axios from 'axios';
+import Link from '@mui/material/Link';
+import { DataGrid } from '@mui/x-data-grid';
+import Button from '@mui/material/Button';
 
-const columns = [
-    {field: 'category', headerName: 'Category', width: 150},
-    {field: 'title', headerName: 'Title', width: 150},
-    {field: 'summary', headerName: 'Summary', width: 150},
-    {field: 'content', headerName: 'Content', width: 150},
-    {field: 'published', headerName: 'Published', width: 150},
-    {field: 'link', headerName: 'Link', width: 150},
-    {field: 'sentiment', headerName: 'Sentiment', width: 150},
-];
+
 
 const NewsTable = () => {
     const [data, setData] = useState([]);
-    const [columns, setColumns] = useState([]);
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log("fetching data")
+                const response = await axios.get('http://localhost:8000/api/list_news/');
+                setData(response.data);
+                console.log(response.data);
+            } catch (error) {
+                console.error('Error fetching news:', error);
+            }
+        };
         fetchData();
     }, []);
 
-    const fetchData = async () => {
-        try {
-        console.log("fetching data")
-        const response = await axios.get('http://localhost:8000/api/news/');
-        setData(response.data);
-        } catch (error) {
-        console.error('Error fetching news:', error);
-        }
+    const handlePostClick = (id) => {
+       
+        console.log(`Action clicked for row with ID: ${id}`);
     };
+
+    const handleScheduleClick = (id) => {
+
+        console.log(`Schedule clicked for row with ID: ${id}`);
+    };
+
+    const columns = [
+        {field: 'sentiment', headerName: 'Sentiment', width: 150},
+        {field: 'published', headerName: 'Published', width: 150},
+        {field: 'category', headerName: 'Category', width: 150},
+        {
+            field: 'title',
+            headerName: 'Title',
+            width: 600,
+            renderCell: (params) => (
+                <a href={params.row.link} target="_blank" rel="noopener">
+                    {params.value}
+                </a>
+            ),
+        },
+        {
+            field: 'action',
+            headerName: 'Action',
+            width: 400,
+            renderCell: (params) => (
+                <div>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handlePostClick(params.row.id)}
+                        style={{ marginRight: 8 }}
+                    >
+                        Publish Now
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        color="secondary"
+                        onClick={() => handleScheduleClick(params.row.id)}
+                    >
+                        Schedule
+                    </Button>
+                </div>
+            ),
+        },
+    ];
 
     const rows = data.map((item, index) => ({
         id: index,
+        sentiment: item.sentiment,
+        published: item.published,
         category: item.category,
         title: item.title,
-        summary: item.summary,
-        content: item.content,
-        published: item.published,
         link: item.link,
-        sentiment: item.sentiment,
+
     }));
     
     return (
-        <DataTable 
-            rows = {data}
-            columns = {columns}
-            loading = {!data.length}
-
-        />
+        <div style={{ height: '100%', width: '100%' }}>
+            <DataTable 
+                rows = {rows}
+                columns = {columns}
+                loading = {!data.length}
+                autoHeight
+            />
+        </div>
     );
 };
 

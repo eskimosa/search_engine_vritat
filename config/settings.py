@@ -91,8 +91,8 @@ DATABASES = {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": "postgres",
         "USER": "postgres",
-        "PASSWORD": "postgres",
-        "HOST": "localhost",  # set in docker-compose.yml
+        "PASSWORD": "",
+        "HOST": "db",  # set in docker-compose.yml
         "PORT": 5432,  # default postgres port
     }
 }
@@ -144,8 +144,3 @@ CACHES = {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
     }
 }
-
-'''REST_FRAMEWORK = {
-    'DATE_FORMAT': "%d/%m/%Y",
-
-}'''

@@ -29,17 +29,15 @@ def convert_published_date(date):
 
 def extract_news_from_rss(rss_urls):
     all_news = []
-    # id = 1
     for url in rss_urls:
         feed = feedparser.parse(url)
         category = feed.feed.title
         for entry in feed.entries:
             sentiment = sentiment_rate(entry.link)
-            if sentiment > 0.5:
+            if sentiment >= 0.3:
                 published_date = convert_published_date(entry.published)
                 summary = entry.summary if entry.summary else 'No data'
                 news_entry = {
-                    # 'id': id,
                     'category': category,
                     'title': entry.title,
                     'link': entry.link,
@@ -49,7 +47,6 @@ def extract_news_from_rss(rss_urls):
                     'sentiment': sentiment
                 }
                 all_news.append(news_entry)
-                # id += 1
     return all_news
 
 

@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import axios from 'axios';
 
 const DataTable = ({
     rows,
