@@ -4,6 +4,8 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 from .sentiment_analysis import sentiment_rate
+from .models import News
+from django.db.models import Q
 
 if hasattr(ssl, '_create_unverified_context'):
     ssl._create_default_https_context = ssl._create_unverified_context
@@ -34,19 +36,20 @@ def extract_news_from_rss(rss_urls):
         category = feed.feed.title
         for entry in feed.entries:
             sentiment = sentiment_rate(entry.link)
-            if sentiment >= 0.3:
+            if sentiment >= 0.1:
                 published_date = convert_published_date(entry.published)
                 summary = entry.summary if entry.summary else 'No data'
-                news_entry = {
-                    'category': category,
-                    'title': entry.title,
-                    'link': entry.link,
-                    'published': published_date,
-                    'summary': summary,
-                    'content': extract_article_content(entry.link),
-                    'sentiment': sentiment
-                }
-                all_news.append(news_entry)
+                if not News.objects.filter(Q(title=entry.title) | Q(link=entry.link)).exists():
+                    news_entry = {
+                        'category': category,
+                        'title': entry.title,
+                        'link': entry.link,
+                        'published': published_date,
+                        'summary': summary,
+                        'content': extract_article_content(entry.link),
+                        'sentiment': sentiment
+                    }
+                    all_news.append(news_entry)
     return all_news
 
 
