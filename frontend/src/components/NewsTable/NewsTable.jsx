@@ -11,18 +11,36 @@ const NewsTable = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                console.log("fetching data")
-                const response = await axios.get('http://localhost:8000/api/list_news/');
-                setData(response.data);
-                console.log(response.data);
-            } catch (error) {
-                console.error('Error fetching news:', error);
-            }
-        };
         fetchData();
     }, []);
+
+    const fetchData = async () => {
+        try {
+            console.log("fetching data")
+            const response = await axios.get('http://localhost:8000/api/list_news/');
+            setData(response.data);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching news:', error);
+        }
+    };
+
+    const handleRefreshClick = async () => {
+        try {
+            console.log('fetching new data');
+            const response = await axios.get('http://localhost:8000/api/add_news/');
+            if (response.data != 0) {
+                const response = await axios.get('http://localhost:8000/api/list_news/');
+                setData(response.data);
+            } else {
+                alert('No fresh news were added');
+            }
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error adding news:', error);
+        }
+    };
+
 
     const handlePostClick = (id) => {
        
@@ -86,6 +104,9 @@ const NewsTable = () => {
     
     return (
         <div style={{ height: '100%', width: '100%' }}>
+            <Button variant="contained" color="primary" onClick={handleRefreshClick} style={{ marginBottom: 16 }}>
+                Refresh News
+            </Button>
             <DataTable 
                 rows = {rows}
                 columns = {columns}
