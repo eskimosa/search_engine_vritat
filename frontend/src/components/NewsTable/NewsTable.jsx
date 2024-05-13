@@ -16,7 +16,7 @@ const NewsTable = () => {
 
     const fetchData = async () => {
         try {
-            console.log("fetching data")
+            console.log("Fetching news")
             const response = await axios.get('http://localhost:8000/api/list_news/');
             setData(response.data);
             console.log(response.data);
@@ -27,15 +27,8 @@ const NewsTable = () => {
 
     const handleRefreshClick = async () => {
         try {
-            console.log('fetching new data');
-            const response = await axios.get('http://localhost:8000/api/add_news/');
-            if (response.data != 0) {
-                const response = await axios.get('http://localhost:8000/api/list_news/');
-                setData(response.data);
-            } else {
-                alert('No fresh news were added');
-            }
-            console.log(response.data);
+            console.log('Refreshing data');
+            await fetchData();
         } catch (error) {
             console.error('Error adding news:', error);
         }
@@ -118,4 +111,3 @@ const NewsTable = () => {
 };
 
 export default NewsTable;
-

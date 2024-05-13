@@ -37,3 +37,11 @@ class NewsListViewSet(viewsets.ModelViewSet):
             return Response(str(e), status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+class UpdateFrequency(APIView):
+    def post(self, request, format=None):
+        frequency = request.data.get('frequency')
+        if not frequency:
+            return Response({'error': 'Frequency not provided'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'frequency': frequency}, status=status.HTTP_201_CREATED)
+
