@@ -10,6 +10,7 @@ class News(models.Model):
     summary = models.TextField()
     content = models.TextField()
     sentiment = models.FloatField(default=0)
+    deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

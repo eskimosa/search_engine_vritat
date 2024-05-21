@@ -36,7 +36,7 @@ def extract_news_from_rss(rss_urls):
         category = feed.feed.title
         for entry in feed.entries:
             sentiment = sentiment_rate(entry.link)
-            if sentiment >= 0.35:
+            if sentiment >= 0.33:
                 published_date = convert_published_date(entry.published)
                 summary = entry.summary if entry.summary else 'No data'
                 if not News.objects.filter(Q(title=entry.title) | Q(link=entry.link)).exists():
