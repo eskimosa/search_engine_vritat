@@ -33,19 +33,16 @@ class LaVanguardiaPlugin(Scraper):
             feed = feedparser.parse(url)
             category = feed.feed.title
             for entry in feed.entries:
-                sentiment = self.sentiment_analyzer.sentiment_rate(entry.link)
-                if sentiment >= 0.35:
-                    published_date = self.convert_published_date(entry.published)
-                    summary = entry.summary if entry.summary else 'No data'
-                    if not News.objects.filter(Q(title=entry.title) | Q(link=entry.link)).exists():
-                        news_entry = {
-                            'category': category,
-                            'title': entry.title,
-                            'link': entry.link,
-                            'published': published_date,
-                            'summary': summary,
-                            'content': self.extract_article_content(entry.link),
-                            'sentiment': sentiment
-                        }
-                        all_news.append(news_entry)
+                published_date = self.convert_published_date(entry.published)
+                summary = entry.summary if entry.summary else 'No data'
+                if not News.objects.filter(Q(title=entry.title) | Q(link=entry.link)).exists():
+                    news_entry = {
+                        'category': category,
+                        'title': entry.title,
+                        'link': entry.link,
+                        'published': published_date,
+                        'summary': summary,
+                        'content': self.extract_article_content(entry.link),
+                    }
+                    all_news.append(news_entry)
         return all_news
