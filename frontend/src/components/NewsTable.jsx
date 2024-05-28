@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import DataTable from "./DataTable";
 import axios from "axios";
-import Link from "@mui/material/Link";
+import { Link } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
@@ -15,11 +15,7 @@ const NewsTable = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       setIsLoading(true);
       console.log("Fetching news");
@@ -32,16 +28,16 @@ const NewsTable = () => {
     } finally {
         setIsLoading(false);
       }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
 
 
   const handleRefreshClick = async () => {
-    try {
-      console.log("Refreshing data");
-      await fetchData();
-    } catch (error) {
-      console.error("Error adding news:", error);
-    }
+    fetchData();
   };
 
   const handlePostClick = (id) => {
@@ -79,7 +75,12 @@ const NewsTable = () => {
       headerName: "Title",
       flex: 1,
       renderCell: (params) => (
-        <a href={params.row.link} target="_blank" rel="noopener">
+        <a
+        href={params.row.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 underline hover:text-blue-700"
+      >
           {params.value}
         </a>
       ),
