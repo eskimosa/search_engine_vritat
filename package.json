@@ -10,5 +10,15 @@
     "clsx": "^2.1.1",
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5"
+  },
+  "eslintConfig": {
+    "env": {
+      "jest/globals": true
+    },
+    "extends": [
+      "react-app",
+      "plugin:jest/recommended"
+    ],
+    "plugins": ["jest"]
   }
 }

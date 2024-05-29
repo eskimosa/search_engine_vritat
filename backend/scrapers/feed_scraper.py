@@ -26,7 +26,8 @@ class Scraper(ABC):
             does: validates the received data and saves it to model;
             returns: list of validated data
         '''
-        return self.save_news.save_news(analyzed_news)
+        saved_news, status_code = self.save_news.save_news(analyzed_news)
+        return saved_news, status_code
 
 
     @abstractmethod

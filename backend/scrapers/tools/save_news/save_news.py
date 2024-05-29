@@ -7,6 +7,6 @@ class SaveNews:
         serializer = NewsSerializer(data=news, many=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return serializer.data, status.HTTP_201_CREATED
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return serializer.errors, status.HTTP_400_BAD_REQUEST

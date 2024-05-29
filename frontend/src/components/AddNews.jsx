@@ -34,7 +34,7 @@ const AddNews = () => {
     return (
         <div>
             <h1>{message}</h1>
-            <button className="bg-gray-950 hover:bg-indigo-600 text-stone-50 font-bold py-2 px-4 rounded-full mr-16 focus:outline-none focus:shadow-outline" type='button' onClick={fetchData} disabled={isLoading}>{isLoading ? 'Loading...' : 'Fetch Data'}</button>
+            <button className="bg-gray-950 hover:bg-teal-700 text-stone-50 font-bold py-2 px-4 rounded-full mr-16 focus:outline-none focus:shadow-outline" type='button' onClick={fetchData} disabled={isLoading}>{isLoading ? 'Loading...' : 'Fetch Data'}</button>
             <ToastContainer />
         </div>
     );
