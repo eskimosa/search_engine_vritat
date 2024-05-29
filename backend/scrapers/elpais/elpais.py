@@ -1,7 +1,4 @@
 import feedparser
-import requests
-from bs4 import BeautifulSoup
-from datetime import datetime
 from django.db.models import Q
 import ssl
 from backend.scrapers.feed_scraper import Scraper
@@ -45,5 +42,4 @@ class ElPaisPlugin(Scraper):
                         'content': content,
                     }
                     all_news.append(news_entry)
-        print(all_news)
         return all_news
