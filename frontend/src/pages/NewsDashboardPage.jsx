@@ -1,6 +1,6 @@
 import React from 'react'
-import NewsTable from '../components/NewsTable';
-import LeftMenu from '../components/LeftMenu';
+import NewsTable from '../components/NewsDashboard/NewsTable';
+import LeftMenu from '../components/Layouts/LeftMenu';
 
 const NewsDashboardPage = () => {
   return (

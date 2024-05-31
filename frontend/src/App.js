@@ -1,5 +1,5 @@
 import React from 'react';
-import NewsTable from './components/NewsTable';
+import NewsTable from './components/NewsDashboard/NewsTable';
 import AddNews from './components/AddNews';
 import FetchNewsPage from './pages/FetchNewsPage';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';

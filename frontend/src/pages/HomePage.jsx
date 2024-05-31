@@ -1,6 +1,6 @@
 import React from 'react';
-import Hero from '../components/Hero';
-import LeftMenu from '../components/LeftMenu';
+import Hero from '../components/Layouts/Hero';
+import LeftMenu from '../components/Layouts/LeftMenu';
 
 
 const HomePage = () => {

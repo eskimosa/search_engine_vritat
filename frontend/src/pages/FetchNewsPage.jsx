@@ -1,6 +1,6 @@
 import React from 'react'
 import AddNews from '../components/AddNews';
-import LeftMenu from '../components/LeftMenu';
+import LeftMenu from '../components/Layouts/LeftMenu';
 
 
 const FetchNewsPage = () => {
