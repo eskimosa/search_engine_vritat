@@ -1,0 +1,11 @@
+POST http://localhost:8000/api/auth/login/
+Content-Type: application/json
+
+{"username":"jenya", "password": "123!"}
+
+###
+
+POST http://localhost:8000/api/auth/signup/
+Content-Type: application/json
+
+{"username":"jenya", "password": "123!", "email":"jenya@gmail.com"}

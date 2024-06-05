@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+from backend.jwt_settings import SIMPLE_JWT
 
 
 
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
 
     # 3rd party app
     'rest_framework',
+    'rest_framework.authtoken',
 
     # Local apps
     'backend',
@@ -149,5 +151,11 @@ CACHES = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # Other authentication classes if needed
+    ),
+}
 
 

@@ -1,34 +1,38 @@
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.contrib.auth import login, logout
-from .serializer import UserRegistrationSerializer, UserLoginSerializer
+from django.contrib.auth.models import User
+from .serializer import UserSerializer
+from django.shortcuts import get_object_or_404
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
-class UserRegistrationViews(APIView):
-    permission_classes = [AllowAny]
 
+class SignupView(APIView):
     def post(self, request):
-        serializer = UserRegistrationSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response({"detail":"User registered successfully"}, status=status.HTTP_201_CREATED)
+            user = serializer.save()
+            user.set_password(request.data['password'])
+            user.save()
+            refresh = RefreshToken.for_user(user)
+            return Response({"refresh": str(refresh), "access": str(refresh.access_token), "user": serializer.data})
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class UserLoginView(APIView):
-    permission_classes = [AllowAny]
-
+class LoginView(APIView):
     def post(self, request):
-        serializer = UserLoginSerializer(data=request.data)
-        if serializer.is_valid():
-            user = serializer.validated_data["user"]
-            login(request, user)
-            return Response({"detail":"Successfully logged in"})
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        user = get_object_or_404(User, username=request.data['username'])
+        if not user.check_password(request.data['password']):
+            return Response({"detail": "Invalid credentials."}, status=status.HTTP_401_UNAUTHORIZED)
+        refresh = RefreshToken.for_user(user)
+        return Response({"refresh": str(refresh), "access": str(refresh.access_token)})
 
-class UserLogoutView(APIView):
-    permission_classes = [IsAuthenticated]
-
+class LogoutView(APIView):
     def post(self, request):
-        logout(request)
-        return Response({"detail":"Successfully logged out"})
+        try:
+            refresh_token = request.data['refresh']
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+            return Response({"detail": "Successfully logged out."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"detail": "Invalid token"}, status=status.HTTP_400_BAD_REQUEST)
