@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "./axiosConfig";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -10,8 +11,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/login/",
+      const response = await api.post(
+        "/auth/login/",
         {
           username: username,
           password: password,
@@ -19,8 +20,9 @@ const Login = () => {
       );
       localStorage.setItem("access_token", response.data.access);
       localStorage.setItem("refresh_token", response.data.refresh);
+      localStorage.setItem("username", username);
       console.log(response.data);
-      navigate("/home");
+      navigate("/news_dash");
     } catch (error) {
       console.error(error.response.data);
     }

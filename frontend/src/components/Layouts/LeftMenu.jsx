@@ -83,15 +83,11 @@ const LeftMenu = () => {
             <List>
               <ListItem button component={Link} to="/news_dash">
                 <ListItemIcon><DashboardIcon  /></ListItemIcon>
-                <ListItemText primary="News Dashboard" />
+                <ListItemText className='text-[#B96663]' primary="News Dashboard" />
               </ListItem>
               <ListItem button component={Link} to="/add_news">
                 <ListItemIcon><PostAddIcon /></ListItemIcon>
-                <ListItemText primary="Fetch News" />
-              </ListItem>
-              <ListItem button component={Link} to="/">
-                <ListItemIcon><HomeIcon  /></ListItemIcon>
-                <ListItemText primary="Home" />
+                <ListItemText className='text-[#B96663]' primary="Fetch News" />
               </ListItem>
             </List>
           </Drawer>
