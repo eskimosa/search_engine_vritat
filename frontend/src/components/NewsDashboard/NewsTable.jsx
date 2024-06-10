@@ -9,11 +9,12 @@ import CachedOutlinedIcon from "@mui/icons-material/CachedOutlined";
 import OutboxIcon from "@mui/icons-material/Outbox";
 import SendIcon from "@mui/icons-material/Send";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
+import ArchiveIcon from '@mui/icons-material/Archive';
 import DeleteIcon from "@mui/icons-material/Delete";
-import { handleRefreshClick, handlePostClick, handleScheduleClick, handleDeleteClick, handleDateChange, handleScheduleSubmit, } from "./Handlers";
+import { handleRefreshClick, handlePostClick, handleScheduleClick, handleDeleteClick, handleDateChange, handleScheduleSubmit, handleArchiveClick } from "./Handlers";
 import ScheduleDialog from "./DateTimePicker";
 
-const NewsTable = () => {
+const NewsTable = ({ filterCondition, showArchiveButton = true }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -25,7 +26,7 @@ const NewsTable = () => {
       setIsLoading(true);
       console.log("Fetching news");
       const response = await axios.get("http://localhost:8000/api/list_news/");
-      const filteredData = response.data.filter((article) => !article.deleted);
+      const filteredData = response.data.filter(filterCondition);
       setData(filteredData);
       console.log(filteredData);
     } catch (error) {
@@ -33,7 +34,7 @@ const NewsTable = () => {
     } finally {
         setIsLoading(false);
       }
-  }, []);
+  }, [filterCondition]);
 
   useEffect(() => {
     fetchData();
@@ -47,6 +48,21 @@ const NewsTable = () => {
       align: "center",
     },
     { field: "published", headerName: "Published", width: 100 },
+    {
+      field: "source",
+      headerName: "Source",
+      width: 200,
+      renderCell: (params) => (
+        <a
+        href={params.row.source}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-blue-500 underline hover:text-blue-700"
+      >
+          {params.value}
+        </a>
+      ),
+    },
     { field: "category", headerName: "Category", width: 110, align: "center" },
     {
       field: "title",
@@ -66,7 +82,7 @@ const NewsTable = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 200,
       renderCell: (params) => (
         <div style={{ display: "flex", gap: 8, justifyContent: "flex-end" }}>
           <IconButton
@@ -81,6 +97,14 @@ const NewsTable = () => {
           >
             <ScheduleSendIcon />
           </IconButton>
+          {showArchiveButton && (
+            <IconButton
+              onClick={() => handleArchiveClick(params.row.id, fetchData)}
+              style={{ flex: 1 }}
+            >
+              <ArchiveIcon />
+            </IconButton>
+          )}
           <IconButton
             onClick={() => handleDeleteClick(params.row.id, fetchData)}
             style={{ flex: 1 }}
@@ -96,6 +120,7 @@ const NewsTable = () => {
     id: data[index].id,
     sentiment: item.sentiment,
     published: item.published,
+    source: item.source,
     category: item.category,
     title: item.title,
     link: item.link,
@@ -103,7 +128,7 @@ const NewsTable = () => {
   }));
 
   return (
-    <div style={{ width: "75%", margin: "0 auto" }}>
+    <div style={{ width: "75%", margin: "0 auto", height: "90vh", overflowY: "auto" }}>
       <div style={{ textAlign: "right" }}>
         <IconButton
           onClick={() => handleRefreshClick(fetchData)}
@@ -119,7 +144,7 @@ const NewsTable = () => {
         <DataTable
           rows={rows}
           columns={columns}
-          loading={!data.length}
+          loading={isLoading}
           autoHeight
         />
       </div>

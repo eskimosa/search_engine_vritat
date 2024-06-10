@@ -14,7 +14,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { Link } from 'react-router-dom';
-import HomeIcon from '@material-ui/icons/Home';
+import ArchiveIcon from '@mui/icons-material/Archive';
 
 
 const drawerWidth = 240;
@@ -88,6 +88,10 @@ const LeftMenu = () => {
               <ListItem button component={Link} to="/add_news">
                 <ListItemIcon><PostAddIcon /></ListItemIcon>
                 <ListItemText className='text-[#B96663]' primary="Fetch News" />
+              </ListItem>
+              <ListItem button component={Link} to="/archived_news">
+                <ListItemIcon><ArchiveIcon /></ListItemIcon>
+                <ListItemText className='text-[#B96663]' primary="Archived News" />
               </ListItem>
             </List>
           </Drawer>

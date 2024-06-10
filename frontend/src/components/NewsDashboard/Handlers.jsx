@@ -42,3 +42,15 @@ export const handleDeleteClick = async (id, fetchData) => {
       console.error("Error marking article as deleted:", error);
     }
   };
+
+export const handleArchiveClick = async (id, fetchData) => {
+    try {
+      await axios.post("http://localhost:8000/api/archived_news/", {
+        article_id: id,
+      });
+      console.log(`Article with ID ${id} marked as archived`);
+      await fetchData();
+    } catch (error) {
+      console.error("Error marking article as archived:", error);
+    }
+};

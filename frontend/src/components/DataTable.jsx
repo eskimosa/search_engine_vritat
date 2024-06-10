@@ -6,17 +6,19 @@ const DataTable = ({
     columns,
     loading,
 }) => {
-    const [pageSize, setPageSize] = useState(2);
+    const [pageSize, setPageSize] = useState(50);
     return (
-        <DataGrid
-            rows = {rows}
-            columns = {columns}
-            loading = {loading}
-            pageSize={pageSize}
-            pagination
-            onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
-            rowsPerPageOptions={[2, 5, 10]}
-        />
+        <div style={{ height: "80vh", width: "100%", overflowY: "auto" }}>
+            <DataGrid
+                rows = {rows}
+                columns = {columns}
+                loading = {loading}
+                pageSize={pageSize}
+                pagination
+                onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+                rowsPerPageOptions={[50]}
+            />
+        </div>
     );
 };
 

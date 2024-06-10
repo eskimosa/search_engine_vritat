@@ -31,12 +31,14 @@ class LaVanguardiaPlugin(Scraper):
         all_news = []
         for url in urls:
             feed = feedparser.parse(url)
+            source = feed.feed.link
             category = feed.feed.title
             for entry in feed.entries:
                 published_date = self.convert_published_date(entry.published)
                 summary = entry.summary if entry.summary else 'No data'
                 if not News.objects.filter(Q(title=entry.title) | Q(link=entry.link)).exists():
                     news_entry = {
+                        'source': source,
                         'category': category,
                         'title': entry.title,
                         'link': entry.link,
