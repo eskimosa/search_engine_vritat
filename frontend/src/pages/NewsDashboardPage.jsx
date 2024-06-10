@@ -3,8 +3,9 @@ import NewsTable from "../components/NewsDashboard/NewsTable";
 import LeftMenu from "../components/Layouts/LeftMenu";
 import Header from "../components/Header";
 import useAuth from "../useAuth";
+import ArchiveMenu from "../components/NewsDashboard/ArchiveMenu";
 
-const NewsDashboardPage = () => {
+const NewsDashboardPage = ({ fetchData }) => {
   useAuth();
 
   const filterArchived = (article) => !article.archived && !article.deleted;
@@ -22,6 +23,10 @@ const NewsDashboardPage = () => {
         </div>
       </section>
       <LeftMenu />
+      <div className="flex justify-center hover:scale-105 duration-150"
+        style={{ padding: "0 20px" }}>
+      <ArchiveMenu fetchData={fetchData} />
+      </div>
       <div
         className="flex justify-center items-center"
         style={{ padding: "0 20px" }}

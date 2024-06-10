@@ -43,9 +43,9 @@ export const handleDeleteClick = async (id, fetchData) => {
     }
   };
 
-export const handleArchiveClick = async (id, fetchData) => {
+export const handleSingleArchiveClick = async (id, fetchData) => {
     try {
-      await axios.post("http://localhost:8000/api/archived_news/", {
+      await axios.post("http://localhost:8000/api/archive_article/", {
         article_id: id,
       });
       console.log(`Article with ID ${id} marked as archived`);
@@ -53,4 +53,16 @@ export const handleArchiveClick = async (id, fetchData) => {
     } catch (error) {
       console.error("Error marking article as archived:", error);
     }
+};
+
+export const handleBulkArchiveClick = async (archiveType, fetchData) => {
+  try {
+    await axios.post("http://localhost:8000/api/archive_news/", {
+      archive_type: archiveType,
+    });
+    console.log(`Archived news older than ${archiveType}`);
+    await fetchData();
+  } catch (error) {
+    console.error("Error archiving news:", error);
+}
 };

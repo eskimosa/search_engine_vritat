@@ -11,10 +11,10 @@ import SendIcon from "@mui/icons-material/Send";
 import ScheduleSendIcon from "@mui/icons-material/ScheduleSend";
 import ArchiveIcon from '@mui/icons-material/Archive';
 import DeleteIcon from "@mui/icons-material/Delete";
-import { handleRefreshClick, handlePostClick, handleScheduleClick, handleDeleteClick, handleDateChange, handleScheduleSubmit, handleArchiveClick } from "./Handlers";
+import { handleRefreshClick, handlePostClick, handleScheduleClick, handleDeleteClick, handleDateChange, handleScheduleSubmit, handleSingleArchiveClick } from "./Handlers";
 import ScheduleDialog from "./DateTimePicker";
 
-const NewsTable = ({ filterCondition, showArchiveButton = true }) => {
+const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick = handleSingleArchiveClick }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -99,7 +99,7 @@ const NewsTable = ({ filterCondition, showArchiveButton = true }) => {
           </IconButton>
           {showArchiveButton && (
             <IconButton
-              onClick={() => handleArchiveClick(params.row.id, fetchData)}
+              onClick={() => onArchiveClick(params.row.id, fetchData)}
               style={{ flex: 1 }}
             >
               <ArchiveIcon />

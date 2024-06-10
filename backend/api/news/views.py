@@ -32,14 +32,3 @@ class MarkAsDeleted(APIView):
             return Response({'message': 'Article marked as deleted successfully'})
         except News.DoesNotExist:
             return Response({'error': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
-
-class MarkAsArchived(APIView):
-    def post(self, request):
-        article_id = request.data.get('article_id')
-        try:
-            article = News.objects.get(pk=article_id)
-            article.archived = True
-            article.save()
-            return Response({'nessage':'Articled marked as archived successfully'})
-        except News.DoesNotExist:
-            return Response({'error': 'Article not found'}, status=status.HTTP_404_NOT_FOUND)
