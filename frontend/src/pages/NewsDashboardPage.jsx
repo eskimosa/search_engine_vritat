@@ -1,14 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import NewsTable from "../components/NewsDashboard/NewsTable";
 import LeftMenu from "../components/Layouts/LeftMenu";
 import Header from "../components/Header";
 import useAuth from "../useAuth";
 import ArchiveMenu from "../components/NewsDashboard/ArchiveMenu";
+import FilterMenu from "../components/NewsDashboard/FilterMenu";
 
 const NewsDashboardPage = ({ fetchData }) => {
   useAuth();
 
-  const filterArchived = (article) => !article.archived && !article.deleted;
+  const [filterCondition, setFilterCondition] = useState(() => (article) => !article.archived && !article.deleted);
 
   return (
     <>
@@ -31,7 +32,11 @@ const NewsDashboardPage = ({ fetchData }) => {
         className="flex justify-center items-center"
         style={{ padding: "0 20px" }}
       >
-        <NewsTable filterCondition={filterArchived} />
+        <div className="flex justify-center hover:scale-105 duration-150"
+          style={{ padding: "0 20px" }}>
+          <FilterMenu setFilterCondition={setFilterCondition} />
+        </div>
+        <NewsTable filterCondition={filterCondition} />
       </div>
     </>
   );

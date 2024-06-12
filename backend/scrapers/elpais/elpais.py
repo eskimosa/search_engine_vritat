@@ -23,7 +23,6 @@ class ElPaisPlugin(Scraper):
         all_news = []
         for url in urls:
             feed = feedparser.parse(url)
-            source = feed.feed.link
             category = feed.feed.title
             for entry in feed.entries:
                 published_date = self.convert_published_date(entry.published)
@@ -35,7 +34,7 @@ class ElPaisPlugin(Scraper):
                     content = entry.content[0].get('value', 'Content not available')
                 if not News.objects.filter(Q(title=entry.title) | Q(link=entry.link)).exists():
                     news_entry = {
-                        'source': source,
+                        'source': 'El Pais',
                         'category': category,
                         'title': entry.title,
                         'link': entry.link,

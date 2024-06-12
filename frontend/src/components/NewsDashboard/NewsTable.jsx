@@ -13,6 +13,7 @@ import ArchiveIcon from '@mui/icons-material/Archive';
 import DeleteIcon from "@mui/icons-material/Delete";
 import { handleRefreshClick, handlePostClick, handleScheduleClick, handleDeleteClick, handleDateChange, handleScheduleSubmit, handleSingleArchiveClick } from "./Handlers";
 import ScheduleDialog from "./DateTimePicker";
+import ArchiveMenu from "./ArchiveMenu";
 
 const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick = handleSingleArchiveClick }) => {
   const [data, setData] = useState([]);
@@ -20,6 +21,7 @@ const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick =
   const [open, setOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedArticleId, setSelectedArticleId] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
@@ -40,6 +42,10 @@ const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick =
     fetchData();
   }, [fetchData]);
 
+  const handleMenuClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
   const columns = [
     {
       field: "sentiment",
@@ -51,17 +57,7 @@ const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick =
     {
       field: "source",
       headerName: "Source",
-      width: 200,
-      renderCell: (params) => (
-        <a
-        href={params.row.source}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-blue-500 underline hover:text-blue-700"
-      >
-          {params.value}
-        </a>
-      ),
+      width: 200
     },
     { field: "category", headerName: "Category", width: 110, align: "center" },
     {
@@ -128,8 +124,13 @@ const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick =
   }));
 
   return (
+    
     <div style={{ width: "75%", margin: "0 auto", height: "90vh", overflowY: "auto" }}>
-      <div style={{ textAlign: "right" }}>
+      <div style={{ display: "flex", justifyContent: "flex-end", alignItems: "center", marginRight: "8px" }}>
+      <IconButton onClick={handleMenuClick}>
+          <ArchiveIcon />
+        </IconButton>
+        <ArchiveMenu fetchData={fetchData} anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
         <IconButton
           onClick={() => handleRefreshClick(fetchData)}
           style={{

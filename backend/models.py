@@ -3,7 +3,7 @@ from django.db import models
 
 # Create your models here.
 class News(models.Model):
-    source = models.URLField()
+    source = models.CharField(max_length=250)
     category = models.CharField(max_length=250)
     title = models.TextField()
     link = models.URLField()

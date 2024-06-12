@@ -43,7 +43,7 @@ export const handleDeleteClick = async (id, fetchData) => {
     }
   };
 
-export const handleSingleArchiveClick = async (id, fetchData) => {
+  export const handleSingleArchiveClick = async (id, fetchData) => {
     try {
       await axios.post("http://localhost:8000/api/archive_article/", {
         article_id: id,
@@ -66,3 +66,53 @@ export const handleBulkArchiveClick = async (archiveType, fetchData) => {
     console.error("Error archiving news:", error);
 }
 };
+
+export const handleFilterClick = (filterType, setFilterCondition) => {
+  const now = new Date();
+  let filterFunction;
+
+  switch (filterType) {
+      case "today":
+          filterFunction = (article) => {
+              const publishedDate = new Date(article.published);
+              return !article.archived && !article.deleted && publishedDate.toDateString() === now.toDateString();
+          };
+          break;
+      case "2_days":
+          filterFunction = (article) => {
+              const publishedDate = new Date(article.published);
+              const twoDaysAgo = new Date(now);
+              twoDaysAgo.setDate(now.getDate() - 1);
+              return !article.archived && !article.deleted && publishedDate >= twoDaysAgo && publishedDate <= now;
+          };
+          break;
+      case "3_days":
+          filterFunction = (article) => {
+              const publishedDate = new Date(article.published);
+              const threeDaysAgo = new Date(now);
+              threeDaysAgo.setDate(now.getDate() - 2);
+              return !article.archived && !article.deleted && publishedDate >= threeDaysAgo && publishedDate <= now;
+          };
+          break;
+      case "1_week":
+          filterFunction = (article) => {
+              const publishedDate = new Date(article.published);
+              const oneWeekAgo = new Date(now);
+              oneWeekAgo.setDate(now.getDate() - 6);
+              return !article.archived && !article.deleted && publishedDate >= oneWeekAgo && publishedDate <= now;
+          };
+          break;
+      case "clear_filter":
+          filterFunction = (article) => !article.archived && !article.deleted; // Default filter condition
+          break;
+      default:
+          filterFunction = (article) => !article.archived && !article.deleted;
+  }
+
+  setFilterCondition(() => filterFunction);
+};
+
+
+
+
+

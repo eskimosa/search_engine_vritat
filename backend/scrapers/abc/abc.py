@@ -1,7 +1,5 @@
 import feedparser
 import requests
-from bs4 import BeautifulSoup
-from datetime import datetime
 from django.db.models import Q
 import ssl
 from backend.scrapers.feed_scraper import Scraper
@@ -35,13 +33,12 @@ class AbcPlugin(Scraper):
             try:
                 feed_content = self.fetch_feed(url)
                 feed = feedparser.parse(feed_content)
-                source = feed.feed.link
                 category = feed.feed.title
                 for entry in feed.entries:
                     published_date = self.convert_published_date(entry.published)
                     if not News.objects.filter(Q(title=entry.title) | Q(link=entry.link)).exists():
                         news_entry = {
-                            'source': source,
+                            'source': 'ABC',
                             'category': category,
                             'title': entry.title,
                             'link': entry.link,
