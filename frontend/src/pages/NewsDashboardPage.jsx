@@ -24,18 +24,11 @@ const NewsDashboardPage = ({ fetchData }) => {
         </div>
       </section>
       <LeftMenu />
-      <div className="flex justify-center hover:scale-105 duration-150"
-        style={{ padding: "0 20px" }}>
-      <ArchiveMenu fetchData={fetchData} />
-      </div>
+
       <div
         className="flex justify-center items-center"
         style={{ padding: "0 20px" }}
       >
-        <div className="flex justify-center hover:scale-105 duration-150"
-          style={{ padding: "0 20px" }}>
-          <FilterMenu setFilterCondition={setFilterCondition} />
-        </div>
         <NewsTable filterCondition={filterCondition} />
       </div>
     </>

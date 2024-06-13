@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Button, Menu, MenuItem } from "@mui/material";
+import { IconButton, Menu, MenuItem } from "@mui/material";
+import FilterListIcon from "@mui/icons-material/FilterList";
 import { handleFilterClick } from "./Handlers";
 
 const FilterMenu = ({ setFilterCondition }) => {
@@ -18,15 +19,12 @@ const FilterMenu = ({ setFilterCondition }) => {
         handleMenuClose();
     };
 
+    
     return (
-        <div className="flex items-center justify-end mr-8">
-            <Button
-                onClick={handleMenuClick}
-                variant="contained"
-                style={{ backgroundColor: "#B96663", color: "white", borderRadius: "9999px", padding: "6px 12px" }}
-            >
-                Filter News
-            </Button>
+        <div>
+      <IconButton onClick={handleMenuClick}>
+        <FilterListIcon />
+      </IconButton>
             <Menu
                 anchorEl={anchorEl}
                 open={Boolean(anchorEl)}
@@ -49,10 +47,4 @@ const FilterMenu = ({ setFilterCondition }) => {
 };
 
 export default FilterMenu;
-
-    
-
-
-
-
 

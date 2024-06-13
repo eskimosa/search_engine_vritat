@@ -69,6 +69,8 @@ export const handleBulkArchiveClick = async (archiveType, fetchData) => {
 
 export const handleFilterClick = (filterType, setFilterCondition) => {
   const now = new Date();
+  now.setHours(23, 59, 59, 999);  // End of today
+
   let filterFunction;
 
   switch (filterType) {
@@ -83,6 +85,7 @@ export const handleFilterClick = (filterType, setFilterCondition) => {
               const publishedDate = new Date(article.published);
               const twoDaysAgo = new Date(now);
               twoDaysAgo.setDate(now.getDate() - 1);
+              twoDaysAgo.setHours(0, 0, 0, 0); // Start of two days ago
               return !article.archived && !article.deleted && publishedDate >= twoDaysAgo && publishedDate <= now;
           };
           break;
@@ -91,6 +94,7 @@ export const handleFilterClick = (filterType, setFilterCondition) => {
               const publishedDate = new Date(article.published);
               const threeDaysAgo = new Date(now);
               threeDaysAgo.setDate(now.getDate() - 2);
+              threeDaysAgo.setHours(0, 0, 0, 0); // Start of three days ago
               return !article.archived && !article.deleted && publishedDate >= threeDaysAgo && publishedDate <= now;
           };
           break;
@@ -99,6 +103,7 @@ export const handleFilterClick = (filterType, setFilterCondition) => {
               const publishedDate = new Date(article.published);
               const oneWeekAgo = new Date(now);
               oneWeekAgo.setDate(now.getDate() - 6);
+              oneWeekAgo.setHours(0, 0, 0, 0); // Start of one week ago
               return !article.archived && !article.deleted && publishedDate >= oneWeekAgo && publishedDate <= now;
           };
           break;
@@ -111,8 +116,3 @@ export const handleFilterClick = (filterType, setFilterCondition) => {
 
   setFilterCondition(() => filterFunction);
 };
-
-
-
-
-
