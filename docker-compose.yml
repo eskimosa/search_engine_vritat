@@ -8,6 +8,11 @@ services:
       - .:/vritat
     ports:
       - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - SECRET_KEY=${DJANGO_SECRET_KEY}
+      - DEBUG=1
     depends_on:
       - db
 
