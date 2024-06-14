@@ -8,10 +8,6 @@ services:
       - .:/vritat
     ports:
       - "8000:8000"
-    environment:
-      - SECRET_KEY=${DJANGO_SECRET_KEY}
-      - JWT_SIGNING_KEY=${JWT_SIGNING_KEY}
-      - DEBUG=1
     depends_on:
       - db
 
