@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
-from backend.jwt_settings import SIMPLE_JWT
+from datetime import timedelta
 
 
 
@@ -27,9 +27,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,13.53.206.156,127.0.0.1').split(',')
+
 
 
 # Application definition
@@ -53,10 +55,8 @@ INSTALLED_APPS = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = ['http://localhost:8000',
-                        'http://localhost:8080',
-                        'http://localhost:3000',
-                        ]
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://13.53.206.156,http://127.0.0.1:8000').split(',')
+
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -70,7 +70,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:3000']
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000, http://13.53.206.156').split(',')
 
 ROOT_URLCONF = 'config.urls'
 
@@ -105,6 +105,18 @@ DATABASES = {
         "HOST": os.environ.get('POSTGRES_HOST'),
         "PORT": os.environ.get('POSTGRES_PORT'),
     }
+}
+
+SIMPLE_JWT = {
+'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+'SIGNING_KEY': os.environ.get('JWT_SIGNING_KEY'),
+'ALGORITHM': 'HS256',
+'ROTATE_REFRESH_TOKENS': True,
+'BLACKLIST_AFTER_ROTATION': True,
+'AUTH_HEADER_TYPES': ('Bearer',),
+'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
 
