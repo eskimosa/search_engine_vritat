@@ -1,3 +1,4 @@
 *.idea/
 *__pycache__/
-jwt_settings.py
+vritat-aggregator-panel-2.pem
+vritat-deploy.pem
