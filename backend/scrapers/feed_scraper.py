@@ -36,8 +36,3 @@ class Scraper(ABC):
 
 
 
-'''
-elpais = Plugin(urls=source_urls, threshold=0.5)
-elpais.execute()
-'''
-
