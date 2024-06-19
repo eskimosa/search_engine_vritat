@@ -24,10 +24,10 @@ jobs:
         run: |
           cat /home/runner/.ssh/known_hosts
       
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.7.0
-        with:
-          ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}   
+      #- name: Setup SSH
+      #  uses: webfactory/ssh-agent@v0.7.0
+      #  with:
+      #    ssh-private-key: ${{ secrets.EC2_PRIVATE_KEY }}   
       # - name: Write EC2 Private key to runner
       #  run: |
       #    mkdir -p /home/runner/.ssh/
