@@ -50,9 +50,11 @@ jobs:
         env:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
+          echo "Contents of PRODUCTION_ENV: $PRODUCTION_ENV"
           echo "$PRODUCTION_ENV" > /home/runner/.env
-          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_rsa /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
-      
+          ls -l /home/runner/.env  # Check if the .env file is created
+          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_rsa /home/runner/.env ***@***:/home/ec2-user/search_engine_vritat/.env
+
       - name: Stop app, pull new image, start new app in EC2
         run: |
           ssh -i /home/runner/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}
