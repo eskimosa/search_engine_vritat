@@ -39,7 +39,8 @@ jobs:
           echo "Contents of PRODUCTION_ENV: $PRODUCTION_ENV"
           echo "$PRODUCTION_ENV" > /home/runner/.env
           echo ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} >> /home/runner/ec2_user
-          ping ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}
+          cat /home/runner/ec2_user
+          host ${{ secrets.EC2_HOST }}
           echo "Contents of ec2_user:"
           echo "======================="
           head -n 10 /home/runner/ec2_user
