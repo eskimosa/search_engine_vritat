@@ -50,8 +50,8 @@ jobs:
         env:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
-          echo "$PRODUCTION_ENV" > /home/runner/tmp/.env
-          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_rsa /home/runner/tmp/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          echo "$PRODUCTION_ENV" > /home/runner/.env
+          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_rsa /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
       
       - name: Stop app, pull new image, start new app in EC2
         run: |
