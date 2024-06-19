@@ -37,5 +37,5 @@ jobs:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
           echo "$PRODUCTION_ENV" > /home/runner/.env
-          ls -l /home/runner/.env
+          ssh -V
           scp -vvv -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_rsa /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
