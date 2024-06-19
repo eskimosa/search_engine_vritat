@@ -41,7 +41,8 @@ jobs:
         env:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
-          echo "$PRODUCTION_ENV" > /tmp/env
+          mkdir -p /tmp/env_dir/
+          echo "$PRODUCTION_ENV" > /tmp/env_dir/env
           # scp -vvv /tmp/env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
           # cat /tmp/env | ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
 
@@ -51,5 +52,5 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: "/tmp/env"
+          source: "/tmp/env_dir/*"
           target: "/home/ec2-user/search_engine_vritat/.env"
