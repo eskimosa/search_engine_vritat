@@ -25,11 +25,11 @@ jobs:
       - name: Write EC2 Private key to runner
         run: |
           mkdir -p /home/runner/.ssh/
-          echo "${EC2_PRIVATE_KEY_2}" > /home/runner/.ssh/id_ed25519
-          chmod 600 /home/runner/.ssh/id_ed25519
+          echo "${EC2_PRIVATE_KEY}" > /home/runner/.ssh/vritat_ssh
+          chmod 600 /home/runner/.ssh/vritat_ssh
       - name: Debug previous action
         run: |
-          ls -la /home/runner/.ssh/id_ed25519
+          ls -la /home/runner/.ssh/vritat_ssh
        
 
       - name: Write and Copy .env file to EC2 instance
@@ -38,5 +38,5 @@ jobs:
         run: |
           echo "$PRODUCTION_ENV" > /home/runner/.env
           eval $(ssh-agent -s)
-          ssh-add /home/runner/.ssh/id_ed25519
-          sudo scp -vvv -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          ssh-add /home/runner/.ssh/vritat_ssh
+          sudo scp -vvv -i /home/runner/.ssh/vritat_ssh /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
