@@ -43,4 +43,13 @@ jobs:
         run: |
           echo "$PRODUCTION_ENV" > /home/runner/.env
           # scp -vvv /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
-          cat /home/runner/.env | ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
+          # cat /home/runner/.env | ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
+
+      - name: copy file via ssh password
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          source: "/home/runner/.env"
+          target: "/home/ec2-user/search_engine_vritat/.env"
