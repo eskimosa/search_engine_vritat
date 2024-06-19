@@ -26,7 +26,7 @@ jobs:
         run: |
           mkdir -p /home/runner/.ssh/
           echo "${EC2_PRIVATE_KEY_2}" > /home/runner/.ssh/id_ed25519
-          chmod 400 /home/runner/.ssh/id_ed25519
+          chmod 600 /home/runner/.ssh/id_ed25519
       - name: Debug previous action
         run: |
           ls -la /home/runner/.ssh/id_ed25519
