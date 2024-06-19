@@ -1,0 +1,64 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Docker images
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
+
+      - name: Write EC2 Fingerprint to runner known hosts
+        run: |
+          mkdir -p /home/runner/.ssh
+          echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 ${EC2_HOST_FINGERPRINT}" >> /home/runner/.ssh/known_hosts
+          
+      - name: Debug previous action
+        run: |
+          cat /home/runner/.ssh/known_hosts
+
+      - name: Write EC2 Private key to runner
+        run: |
+          mkdir -p /home/runner/.ssh/
+          echo "${EC2_PRIVATE_KEY}" >> /home/runner/.ssh/id_rsa
+          chmod 400 /home/runner/.ssh/id_rsa
+
+      - name: Debug previous action
+        run: |
+          ls -la /home/runner/.ssh/id_rsa
+       
+
+      - name: Write and Copy .env file to EC2 instance
+        env:
+          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
+        run: |
+          echo "$PRODUCTION_ENV" > /home/runner//tmp/.env
+          scp -o StrictHostKeyChecking=no -i /home/runner/tmp/key.pem /home/runner//tmp/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+
+      - name: Stop app, pull new image, start new app in EC2
+        run: |
+          ssh -i /home/runner/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} << 'EOF'
+            cd /home/ec2-user/search_engine_vritat
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
+EOF
