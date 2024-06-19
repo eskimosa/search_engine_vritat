@@ -18,6 +18,7 @@ jobs:
           mkdir -p /home/runner/.ssh
           ssh-keyscan -p 22 ${{ secrets.EC2_HOST }} >> /home/runner/.ssh/known_hosts
           # echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 ${EC2_HOST_FINGERPRINT}" >> /home/runner/.ssh/known_hosts
+          echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqzXDxgzYjmY1uM+ffaMuETae0ln5Hx5NvK2+OQymqx ec2-user@ip-172-31-32-136.eu-north-1.compute.internal" >> /home/runner/.ssh/authorized_keys
           
       - name: Debug previous action
         run: |
