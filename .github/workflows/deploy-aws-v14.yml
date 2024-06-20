@@ -55,8 +55,7 @@ jobs:
 
       - name: Stop app, pull new image, start new app in EC2
         run: |
-          ssh -i /home/runner/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}
-            "cd /home/ec2-user/search_engine_vritat"
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd /home/ec2-user/search_engine_vritat"
             docker-compose down
             docker-compose pull
             docker-compose up -d
