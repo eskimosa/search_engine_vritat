@@ -49,4 +49,4 @@ jobs:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
           echo "$PRODUCTION_ENV" > /home/runner/.env
-          cat /home/runner/.env | ssh -v -o StrictHostKeyChecking=no -i ${{ secrets.EC2_PRIVATE_KEY }} ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
+          cat /home/runner/.env | ssh -v -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
