@@ -38,5 +38,6 @@ jobs:
         run: |
           echo "$PRODUCTION_ENV" > /home/runner/.env
           scp -o StrictHostKeyChecking=no -i .ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
           # cat /home/runner/.env | ssh -v -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
 
