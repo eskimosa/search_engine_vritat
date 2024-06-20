@@ -43,7 +43,12 @@ jobs:
         run: |
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
           chmod 600 /home/runner/.ssh/id_ed25519
+      
+      - name: Install nmap
+        run: sudo apt-get update && sudo apt-get install -y nmap
 
+      - name: Check if port 8000 is open
+        run: nmap -p 8000 13.51.155.141
         
 
       - name: Write and transfer .env file to EC2 instance
@@ -60,5 +65,5 @@ jobs:
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd /home/ec2-user/search_engine_vritat"
             docker-compose down
             docker-compose pull
-            docker-compose -f docker-compose.yml up -d backend
+            docker-compose -f docker-compose.yml up backend
             docker ps
