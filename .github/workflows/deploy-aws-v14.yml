@@ -26,6 +26,8 @@ jobs:
         uses: docker/compose-action@v2
         with:
           compose-file: docker-compose.yml
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           build: |
             backend
             frontend
