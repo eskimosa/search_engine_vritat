@@ -68,6 +68,5 @@ jobs:
             docker-compose pull
             docker-compose up -d backend
             cd frontend
-            sudo npm install --global yarn
             yarn start
           EOF
