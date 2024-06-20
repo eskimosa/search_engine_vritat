@@ -18,7 +18,6 @@ jobs:
           mkdir -p /home/runner/.ssh
           ssh-keyscan -p 22 ${{ secrets.EC2_HOST }} >> /home/runner/.ssh/known_hosts
           # echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 ${EC2_HOST_FINGERPRINT}" >> /home/runner/.ssh/known_hosts
-          echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDQUZk/jGiuadwHPRLuQ3FnQc21zGXVAI2P6S+FsB1fIrA7CGRBzKz4Xy8F1+fwfDvW56kN5Fs2sx9vP3nNwIy2Mu66AqWb/0Z4QeS91EVGSrDAyVxZCRKeEJzLUGQjHKpMZ63QdCE00QvC9k9BMHLblJ8G4ulygC0FlAGYCRvrQSBi2nlgBGqQf7tlgST9SbrF8wXFoA9qkyB+drQRHYESqqOTLVw1YiZ200o2pnvUZEp7z/mu+XcaqFF6uIQPIH9/OP+L1//26exNt2UG1itPFltMl97GvyUiKDpcCiQRvyXf6XEcnOucoRygqOffgHfkIGrtv9Jbq24IkdWfiHLy5XDjclQI/b0Jr//SRJ1ObP8FQoSXHOilY6QmF691yMNTiUXjtRIY9C6bqlJ9E6DUq/t3GlCfSEC0rQ3IrZBzR24nZdx/Ur3BDaDMQhOZspxAN5w27x+w8uepy+A9Go38EUWDSpZVB0TX2rWBmvv4sJMZ+rpPdwtTK8ZUxH1xqDw8VcsG1VEgsWf79Kt1j9O/jKdbLU4qtVgw7olM2u2q8DRqZJMLBO+hNDjYZDIvu41qXYS8zJL+ut022WBtEpdfDti7DMyrHGpznZl3FAoBskO/NP+kOxMSfggfdCw6u6wWeY6As+g1iQyZLMi2gEFF36TC2SM9EMA9kZFfECzduw== esskimosa@gmail.com" >> /home/runner/.ssh/authorized_keys
           
       - name: Debug previous action
         run: |
@@ -42,16 +41,5 @@ jobs:
         env:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
-          mkdir -p env_dir
-          echo "$PRODUCTION_ENV" > env_dir/env
-          # scp -vvv /tmp/env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
-          # cat /tmp/env | ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
-
-      - name: copy file via ssh password
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          source: env_dir/env
-          target: "/home/ec2-user/search_engine_vritat/.env"
+          echo "$PRODUCTION_ENV" > /home/runner/.env
+          cat /home/runner/.env | ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_ed25519 ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
