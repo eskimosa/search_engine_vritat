@@ -12,6 +12,20 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and Push Docker images
+        run: |
+          docker-compose -f docker-compose.yml build
+          docker-compose -f docker-compose.yml push
           
       - name: Write EC2 Fingerprint to the runner known hosts
         run: |
@@ -28,9 +42,7 @@ jobs:
         run: |
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
           chmod 600 /home/runner/.ssh/id_ed25519
-          # ssh-keyscan -H 13.51.155.141 >> /home/runner/.ssh/id_ed25519
         
-       
 
       - name: Write and transfer .env file to EC2 instance
         env:
@@ -41,3 +53,10 @@ jobs:
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
           # cat /home/runner/.env | ssh -v -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
 
+      - name: Stop app, pull new image, start new app in EC2
+        run: |
+          ssh -i /home/runner/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}
+            "cd /home/ec2-user/search_engine_vritat"
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
