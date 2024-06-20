@@ -64,4 +64,5 @@ jobs:
         run: |
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd /home/ec2-user/search_engine_vritat/frontend"
             yarn install
+            yarn build
             yarn start
