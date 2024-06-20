@@ -64,6 +64,6 @@ jobs:
         run: |
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd /home/ec2-user/search_engine_vritat/frontend"
           sudo npm install --global yarn
-            yarn install
-            yarn build
-            yarn start
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d frontend
