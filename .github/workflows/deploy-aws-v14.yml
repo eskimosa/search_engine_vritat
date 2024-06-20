@@ -22,10 +22,19 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Build and Push Docker images
-        run: |
-          docker-compose -f docker-compose.yml build
-          docker-compose -f docker-compose.yml push
+      - name: Build and Push Docker Images
+        uses: docker/compose-action@v2
+        with:
+          compose-file: docker-compose.yml
+          build: |
+            backend
+            frontend
+          push: true
+
+     # - name: Build and Push Docker images
+      #  run: |
+       #   docker-compose -f docker-compose.yml build
+        #  docker-compose -f docker-compose.yml push
 
           
       - name: Write EC2 Fingerprint to the runner known hosts
@@ -51,7 +60,7 @@ jobs:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
           echo "$PRODUCTION_ENV" > /home/runner/.env
-          scp -o StrictHostKeyChecking=no -i .ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
           # cat /home/runner/.env | ssh -v -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
 
@@ -61,3 +70,4 @@ jobs:
             docker-compose down
             docker-compose pull
             docker-compose -f docker-compose.yml up -d backend
+            docker ps
