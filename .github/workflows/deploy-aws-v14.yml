@@ -17,7 +17,8 @@ jobs:
         run: |
           mkdir -p /home/runner/.ssh
           ssh-keyscan -p 22 ${{ secrets.EC2_HOST }} >> /home/runner/.ssh/known_hosts
-          # echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 ${EC2_HOST_FINGERPRINT}" >> /home/runner/.ssh/known_hosts
+          echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 ${EC2_HOST_FINGERPRINT}" > /home/runner/.ssh/known_hosts
+
           
       - name: Debug previous action
         run: |
