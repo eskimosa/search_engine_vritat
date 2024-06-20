@@ -22,6 +22,12 @@ jobs:
       - name: Debug previous action
         run: |
           cat /home/runner/.ssh/known_hosts
+
+      - name: Set up SSH
+        run: |
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
+          chmod 600 /home/runner/.ssh/id_ed25519
+          ssh-keyscan -H 13.51.155.141 >> /home/runner/.ssh/known_hosts
       
       #- name: Setup SSH
       #  uses: webfactory/ssh-agent@v0.7.0
