@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,13.53.206.156,127.0.0.1,ec2-13-53-206-156.eu-north-1.compute.amazonaws.com').split(',')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,13.53.206.156,127.0.0.1,ec2-13-53-206-156.eu-north-1.compute.amazonaws.com,13.51.155.141').split(',')
 
 
 
@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://13.53.206.156,http://127.0.0.1:8000').split(',')
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://13.53.206.156,http://127.0.0.1:8000,http://13.51.155.141:8000,http://13.51.155.141/3001,http://13.51.155.141/3000,http://13.51.155.141/8080').split(',')
 
 
 MIDDLEWARE = [
@@ -70,7 +70,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000, http://13.53.206.156').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000, http://13.53.206.156,http://13.51.155.141/3000,http://13.51.155.141/3001').split(',')
 
 ROOT_URLCONF = 'config.urls'
 
