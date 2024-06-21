@@ -39,6 +39,7 @@ jobs:
           scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat /home/ec2-user/.ssh/authorized_keys"
-          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat /home/ec2-user/.ssh/id_ed25519.pub"
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat /home/ec2-user/.ssh/known_hosts"
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat /home/ec2-user/.ssh/id_ed25519"
           # cat /home/runner/.env | ssh -v -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cat > /home/ec2-user/search_engine_vritat/.env"
 
