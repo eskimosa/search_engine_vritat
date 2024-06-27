@@ -14,11 +14,11 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY . .
 
-# RUN python manage.py collectstatic --noinput
+RUN python manage.py collectstatic --noinput
 
 # Expose port if needed
 EXPOSE 8000
 
 # Command to run the application
-# CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
-CMD ["python3", "manage.py", "runserver"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "config.wsgi:application"]
+# CMD ["python3", "manage.py", "runserver"]

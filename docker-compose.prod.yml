@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: compose/prod/Dockerfile_backend
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/vritat
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: .
+      dockerfile: compose/prod/Dockerfile_frontend
+    env_file:
+      - ./frontend/.env.production
+    ports:
+      - "3001:3000"
+    volumes:
+      - /app/node_modules
+
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "5434:5432"
+
+volumes:
+  postgres_data:
