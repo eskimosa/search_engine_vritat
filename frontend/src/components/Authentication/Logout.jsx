@@ -6,7 +6,7 @@ const Logout = () => {
     const navigate = useNavigate();
     const handleLogout = async () => {
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/logout/', {
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/auth/logout/`, {
                 refresh: localStorage.getItem('refresh_token')
             });
             localStorage.removeItem('access_token');

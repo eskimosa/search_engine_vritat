@@ -19,7 +19,7 @@ export const handleDateChange = (date, setSelectedDate) => {
 
 export const handleScheduleSubmit = async (selectedArticleId, selectedDate, setOpen, fetchData) => {
     try {
-      await axios.post("http://localhost:8000/api/schedule_post/", {
+      await axios.post(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/schedule_post/`, {
         article_id: selectedArticleId,
         scheduled_time: selectedDate.toISOString(),
       });
@@ -33,7 +33,7 @@ export const handleScheduleSubmit = async (selectedArticleId, selectedDate, setO
 
 export const handleDeleteClick = async (id, fetchData) => {
     try {
-      await axios.post("http://localhost:8000/api/delete_news/", {
+      await axios.post(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/delete_news/`, {
         article_id: id,
       });
       console.log(`Article with ID ${id} marked as deleted`);
@@ -45,7 +45,7 @@ export const handleDeleteClick = async (id, fetchData) => {
 
   export const handleSingleArchiveClick = async (id, fetchData) => {
     try {
-      await axios.post("http://localhost:8000/api/archive_article/", {
+      await axios.post(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/archive_article/`, {
         article_id: id,
       });
       console.log(`Article with ID ${id} marked as archived`);
@@ -57,7 +57,7 @@ export const handleDeleteClick = async (id, fetchData) => {
 
 export const handleBulkArchiveClick = async (archiveType, fetchData) => {
   try {
-    await axios.post("http://localhost:8000/api/archive_news/", {
+    await axios.post(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/archive_news/`, {
       archive_type: archiveType,
     });
     console.log(`Archived news older than ${archiveType}`);

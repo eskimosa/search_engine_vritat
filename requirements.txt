@@ -14,8 +14,10 @@ newspaper3k==0.2.8
 textblob==0.18.0.post0
 nltk==3.8.1
 sqlparse==0.4.4
+whitenoise==6.7.0
 djangorestframework-simplejwt==5.3.1
 pyjwt==2.8.0
+
 
 
 

@@ -13,7 +13,7 @@ const AddNews = () => {
 
         try {
             console.log('fetching new data from AddNews');
-            const response = await axios.get('http://localhost:8000/api/add_news/');
+            const response = await axios.get(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/add_news/`);
             if (response.status === 200) {
                 toast.success('Your request was successful!');
             }

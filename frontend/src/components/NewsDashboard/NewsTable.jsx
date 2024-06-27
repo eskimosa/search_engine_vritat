@@ -30,7 +30,7 @@ const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick =
     try {
       setIsLoading(true);
       console.log("Fetching news");
-      const response = await axios.get("http://localhost:8000/api/list_news/");
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/list_news/`);
       const filteredData = response.data.filter(filterCondition);
       setData(filteredData);
       console.log(filteredData);

@@ -2,6 +2,9 @@
   "devDependencies": {
     "tailwindcss": "^3.4.3"
   },
+  "transformIgnorePatterns": [
+    "node_modules/(?!(axios|react-toastify))"
+],
   "dependencies": {
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",

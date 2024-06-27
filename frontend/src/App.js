@@ -3,7 +3,6 @@ import FetchNewsPage from './pages/FetchNewsPage';
 import { BrowserRouter as Router, Route, Routes, } from 'react-router-dom';
 import ScheduleNews from './components/ScheduleNews/ScheduleNews';
 import HomePage from './pages/HomePage';
-import MainLayout from './layouts/MainLayout';
 import NewsDashboardPage from './pages/NewsDashboardPage';
 import LandingPage from './pages/LandingPage';
 import Login from './components/Authentication/Login';
