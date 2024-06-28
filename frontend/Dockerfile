@@ -12,7 +12,7 @@ COPY . .
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
-RUN if [ "$NODE_ENV" = "production" ]; then cp .env.dev.production .env.dev; else cp .env.dev .env.dev; fi
+RUN if [ "$NODE_ENV" = "production" ]; then cp .env.production .env; else cp .env.dev .env; fi
 
 RUN yarn build
 
