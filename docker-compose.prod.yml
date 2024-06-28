@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: compose/prod/Dockerfile_backend
+    image: esskimosa/vritat-backend:latest
     command: python3 manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/vritat
@@ -19,6 +20,7 @@ services:
     build:
       context: .
       dockerfile: compose/prod/Dockerfile_frontend
+    image: esskimosa/vritat-frontend:latest
     env_file:
       - ./frontend/.env.production
     ports:
