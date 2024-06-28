@@ -6,6 +6,7 @@
     "@babel/core": "^7.24.6",
     "@babel/plugin-syntax-flow": "^7.24.6",
     "@babel/plugin-transform-react-jsx": "^7.24.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
     "@date-io/dayjs": "^3.0.0",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
