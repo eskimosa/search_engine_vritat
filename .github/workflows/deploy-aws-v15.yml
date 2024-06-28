@@ -1,0 +1,65 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and push backend image
+        run: |
+          docker build -t username/my-app-backend:latest -f compose/prod/Dockerfile_backend .
+          docker push username/my-app-backend:latest
+
+      - name: Build and push images
+        run: |
+          docker-compose -f docker-compose.prod.yml build
+          docker tag search_engine_vritat_backend:latest esskimosa/vritat-backend:latest
+          docker tag search_engine_vritat_frontend:latest esskimosa/vritat-frontend:latest
+          docker push esskimosa/vritat-backend:latest
+          docker push esskimosa/vritat-frontend:latest
+
+      - name: Write EC2 Fingerprint to the runner known hosts
+        run: |
+          mkdir -p /home/runner/.ssh
+          ssh-keyscan -p 22 ${{ secrets.EC2_HOST }} >> /home/runner/.ssh/known_hosts
+          echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 ${EC2_HOST_FINGERPRINT}" >> /home/runner/.ssh/known_hosts
+
+      - name: Write EC2 Private key to the runner
+        run: |
+          echo "${{ secrets.EC2_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
+          chmod 600 /home/runner/.ssh/id_ed25519
+
+      - name: Write and transfer .env file to EC2 instance
+        env:
+          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
+        run: |
+          echo "$PRODUCTION_ENV" > /home/runner/.env
+          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
+
+      - name: Stop app, pull new image, start backend container in EC2
+        run: |
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "cd /home/ec2-user/search_engine_vritat"
+            docker-compose down
+            docker pull esskimosa/vritat-backend:latest
+            docker pull esskimosa/vritat-frontend:latest
+            docker-compose -f docker-compose.prod.yml up -d
+            docker ps
