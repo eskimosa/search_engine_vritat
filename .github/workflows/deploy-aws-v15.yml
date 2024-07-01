@@ -26,7 +26,7 @@ jobs:
       - name: Build and push backend image
         run: |
           DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml build
-          docker push sskimosa/vritat:latest
+          docker push esskimosa/vritat:latest
 
 
       - name: Write EC2 Fingerprint to the runner known hosts
