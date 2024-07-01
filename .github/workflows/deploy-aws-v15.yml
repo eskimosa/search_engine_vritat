@@ -25,16 +25,12 @@ jobs:
 
       - name: Build and push backend image
         run: |
-          docker build -t username/my-app-backend:latest -f compose/prod/Dockerfile_backend .
-          docker push username/my-app-backend:latest
-
-      - name: Build and push images
-        run: |
-          docker-compose -f docker-compose.prod.yml build
-          docker tag search_engine_vritat_backend:latest esskimosa/vritat-backend:latest
-          docker tag search_engine_vritat_frontend:latest esskimosa/vritat-frontend:latest
+          DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml build
+          docker tag vritat_backend:latest esskimosa/vritat-backend:latest
+          docker tag vritat_frontend:latest esskimosa/vritat-frontend:latest
           docker push esskimosa/vritat-backend:latest
           docker push esskimosa/vritat-frontend:latest
+
 
       - name: Write EC2 Fingerprint to the runner known hosts
         run: |
