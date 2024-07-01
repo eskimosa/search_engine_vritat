@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://13.53.206.156,http://127.0.0.1:8000,http://13.51.155.141:8000,http://localhost:3001,http://13.51.155.141:3001,http://13.51.155.141:3000,http://13.51.155.141:8080').split(',')
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://13.53.206.156,http://127.0.0.1:8000,http://13.51.155.141:8000,http://localhost:3001,http://13.51.155.141:3001,http://13.51.155.141:3000,http://13.51.155.141:8080,https://13.51.155.141,https://13.51.155.141:8000,https://13.51.155.141:3000,https://13.51.155.141:3001').split(',')
 
 
 MIDDLEWARE = [
@@ -71,7 +71,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://13.53.206.156,http://13.51.155.141:3000,http://13.51.155.141:3001').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://13.53.206.156,http://13.51.155.141:3000,http://13.51.155.141:3001,https://13.51.155.141,https://13.51.155.141:8000,https://13.51.155.141:3000,https://13.51.155.141:3001').split(',')
 
 ROOT_URLCONF = 'config.urls'
 
