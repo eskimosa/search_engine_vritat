@@ -24,14 +24,22 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
 
+      - name: Set up environment variables for Docker
+        env:
+          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
+
       - name: Build and push backend image
         run: |
           DOCKER_BUILDKIT=1 \
+          echo "PRODUCTION_ENV=${PRODUCTION_ENV}" > .env.temp \
           docker-compose -f docker-compose.prod.yml \
-          --env-file <(echo "PRODUCTION_ENV=${PRODUCTION_ENV}") \
+          --env-file .env.temp \
           build
           docker push esskimosa/vritat-backend:latest
           docker push esskimosa/vritat-frontend:latest
+
+      - name: Cleanup temporary .env file
+        run: rm .env.temp
           
       - name: Write EC2 Fingerprint to the runner known hosts
         run: |
