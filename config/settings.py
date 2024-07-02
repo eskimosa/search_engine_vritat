@@ -60,6 +60,7 @@ LOGGING = {
 
 logger.error(f"Secret Key Django: {SECRET_KEY}")
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -146,7 +147,7 @@ DATABASES = {
 SIMPLE_JWT = {
 'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
 'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-# 'SIGNING_KEY': os.environ.get('JWT_SIGNING_KEY'),
+'SIGNING_KEY': os.environ.get('JWT_SIGNING_KEY'),
 'ALGORITHM': 'HS256',
 'ROTATE_REFRESH_TOKENS': True,
 'BLACKLIST_AFTER_ROTATION': True,
@@ -155,6 +156,7 @@ SIMPLE_JWT = {
 'TOKEN_TYPE_CLAIM': 'token_type',
 }
 
+logger.error(f"JWT Signing Key: {SIMPLE_JWT['SIGNING_KEY']}")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
