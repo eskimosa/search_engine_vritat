@@ -34,9 +34,12 @@ const Signup = ({ closeModal }) => {
       localStorage.setItem('access_token', response.data.access);
       localStorage.setItem('refresh_token', response.data.refresh);
       localStorage.setItem("username", username);
+
+      setPassword("");
+      setPassword2("");
+      
       closeModal();
       navigate("/news_dash");
-      console.log(response.data);
     } catch (error) {
       console.error(error.response.data);
     }
