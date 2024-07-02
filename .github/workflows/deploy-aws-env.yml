@@ -25,7 +25,10 @@ jobs:
 
 
       - name: Set up environment variables for Docker
-        run: echo "PRODUCTION_ENV=${{ secrets.PRODUCTION_ENV }}" > .env.temp
+        env:
+          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
+        run: | 
+          echo "$PRODUCTION_ENV" > .env.temp
 
       - name: Build and push backend image
         run: |
