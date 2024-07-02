@@ -10,7 +10,7 @@ services:
     volumes:
       - .:/vritat
     env_file:
-      - ./.env
+      - .env
     ports:
       - "8000:8000"
     depends_on:
