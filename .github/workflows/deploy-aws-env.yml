@@ -23,12 +23,10 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-
       - name: Set up environment variables for Docker
         env:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
-        run: | 
-          echo "$PRODUCTION_ENV" > .env
+        run: echo "$PRODUCTION_ENV" > .env
 
       - name: Build and push backend image
         run: |
@@ -37,27 +35,26 @@ jobs:
           docker push esskimosa/vritat-frontend:latest
 
       - name: Cleanup temporary .env file
-        run: rm .env.temp
-          
+        run: rm .env
+
       - name: Write EC2 Fingerprint to the runner known hosts
         run: |
           mkdir -p /home/runner/.ssh
           ssh-keyscan -p 22 ${{ secrets.EC2_HOST }} >> /home/runner/.ssh/known_hosts
-          echo "${{ secrets.EC2_HOST }} ecdsa-sha2-nistp256 ${EC2_HOST_FINGERPRINT}" >> /home/runner/.ssh/known_hosts
-          
+
       - name: Write EC2 Private key to the runner
         run: |
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
           chmod 600 /home/runner/.ssh/id_ed25519
-          
+
       - name: Write and transfer .env file to EC2 instance
         env:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
-          echo "$PRODUCTION_ENV" > /home/runner/.env
-          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          echo "$PRODUCTION_ENV" > .env
+          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 .env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
-          
+
       - name: SSH into EC2, stop/pull/start container
         uses: appleboy/ssh-action@master
         with:
@@ -66,11 +63,10 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           port: 22
           script: |
-            ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'Logged in successfully'"
-            cd /home/ec2-user/search_engine_vritat
             docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-            docker ps -aq | xargs docker stop | xargs docker rm
-            docker pull esskimosa/vritat-backend:latest
-            docker pull esskimosa/vritat-frontend:latest
-            docker-compose -f docker-compose.prod.yml up -d
+            cd /home/ec2-user/search_engine_vritat
+            docker-compose down
+            docker-compose pull
+            docker-compose up -d
             docker ps
+
