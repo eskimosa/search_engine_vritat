@@ -59,7 +59,8 @@ LOGGING = {
 }
 
 logger.error(f"Secret Key Django: {SECRET_KEY}")
-
+CHECK_ENV = os.environ.get('Test')
+logger.error(f"Secret Key Django: {CHECK_ENV}")
 
 # Application definition
 
