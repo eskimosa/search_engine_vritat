@@ -25,13 +25,11 @@ jobs:
 
 
       - name: Set up environment variables for Docker
-        env:
-          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
+        run: echo "PRODUCTION_ENV=${{ secrets.PRODUCTION_ENV }}" > .env.temp
 
       - name: Build and push backend image
         run: |
           DOCKER_BUILDKIT=1 \
-          echo "PRODUCTION_ENV=${PRODUCTION_ENV}" > .env.temp \
           docker-compose -f docker-compose.prod.yml \
           --env-file .env.temp \
           build
