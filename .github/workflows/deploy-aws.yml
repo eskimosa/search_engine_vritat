@@ -84,7 +84,7 @@ jobs:
           port: 22
           script: |
             cd /home/ec2-user/search_engine_vritat
-            docker-compose -f docker-compose.prod.yml run --rm django python manage.py migrate
-            docker-compose -f docker-compose.prod.yml run --rm django python manage.py createsuperuser --noinput --username ${{ secrets.DJANGO_SUPERUSER_USERNAME }} --email ${{ secrets.DJANGO_SUPERUSER_EMAIL }} --password ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-            docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d postgres -c "INSERT INTO auth_user (id,username,password,email) VALUES(2,'Albert','${{ secrets.ALBERT_PASS }}','newlog@gmail.com')"
-            docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d postgres -c "INSERT INTO auth_user (id,username,password,email) VALUES(3,'Artur','${{ secrets.ARTUR_PASS }}','newbie@gmail.com')"
+            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py migrate
+            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py createsuperuser --noinput --username ${{ secrets.DJANGO_SUPERUSER_USERNAME }} --email ${{ secrets.DJANGO_SUPERUSER_EMAIL }} --password ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+            docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d postgres -c "INSERT INTO auth_user (id,username,password,email,is_superuser,is_staff,is_active,date_joined) VALUES(2,'Albert','${{ secrets.ALBERT_PASS }}','newlog@gmail.com',false,false,true,current_timestamp)"
+            docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d postgres -c "INSERT INTO auth_user (id,username,password,email,is_superuser,is_staff,is_active,date_joined) VALUES(3,'Artur','${{ secrets.ARTUR_PASS }}','newbie@gmail.com',false,false,true,current_timestamp)"
