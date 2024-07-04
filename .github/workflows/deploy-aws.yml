@@ -56,11 +56,19 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }}
           port: 22
           script: |
-            ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'Logged in successfully'"
+            # ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "echo 'Logged in successfully'"
             cd /home/ec2-user/search_engine_vritat
             docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
             docker ps -aq | xargs docker stop | xargs docker rm
             docker pull esskimosa/vritat-backend:latest
             docker pull esskimosa/vritat-frontend:latest
-            docker-compose -f docker-compose.prod.yml up -d
+	    docker-compose -f docker-compose.prod.yml run --rm django python manage.py migrate
+	    docker-compose -f docker-compose.prod.yml run --rm django python manage.py shell -c "from django.contrib.auth.models import User
+	    if not User.objects.filter(username='${{ secrets.DJANGO_SUPERUSER_USERNAME }}').exists():
+            User.objects.create_superuser('${{ secrets.DJANGO_SUPERUSER_USERNAME }}', '${{ secrets.DJANGO_SUPERUSER_EMAIL }}', '${{ secrets.DJANGO_SUPERUSER_PASSWORD }}'
+            if not User.objects.filter(username='Albert').exists():
+            User.objects.create_user('Albert','newlog@gmail.com','${{ secrets.ALBERT_PASS }}')
+	    if not User.objects.filter(username='Artur').exists():
+            User.objects.create_user('Artur','newbie@gmail.com','${{ secrets.ARTUR_PASS }}')
+	    docker-compose -f docker-compose.prod.yml up -d
             docker ps
