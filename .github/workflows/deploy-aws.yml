@@ -85,24 +85,6 @@ jobs:
           script: |
             cd /home/ec2-user/search_engine_vritat
             docker-compose -f docker-compose.prod.yml run --rm backend python manage.py migrate
-            echo "from django.contrib.auth.models import User; User.objects.create_superuser("${{ secrets.DJANGO_SUPERUSER_USERNAME }}", "${{ secrets.DJANGO_SUPERUSER_EMAIL }}", "${{ secrets.DJANGO_SUPERUSER_PASSWORD }}") | python manage.py shell
-            # docker-compose -f docker-compose.prod.yml run --rm backend bash -c 'python manage.py shell <<EOF
-            # from django.contrib.auth.models import User
-              # if not User.objects.filter(username="${{ secrets.DJANGO_SUPERUSER_USERNAME }}").exists():
-                # User.objects.create_superuser("${{ secrets.DJANGO_SUPERUSER_USERNAME }}", "${{ secrets.DJANGO_SUPERUSER_EMAIL }}", "${{ secrets.DJANGO_SUPERUSER_PASSWORD }}")
-              # if not User.objects.filter(username="Albert").exists():
-                # User.objects.create_user("Albert", "newlog@gmail.com", "${{ secrets.ALBERT_PASS }}")
-              # if not User.objects.filter(username="Artur").exists():
-                # User.objects.create_user("Artur", "newbie@gmail.com", "${{ secrets.ARTUR_PASS }}")
-            # EOF
-            # '
-            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py makemigrations
-            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py migrate
-            
-            # docker-compose -f docker-compose.prod.yml run --rm backend python manage.py createsuperuser --noinput --username ${{ secrets.DJANGO_SUPERUSER_USERNAME }} --email ${{ secrets.DJANGO_SUPERUSER_EMAIL }} --password ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
-            # docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d postgres -c "INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES('${{ secrets.DJANGO_SUPERUSER_PASSWORD }}', NULL, true,'${{ secrets.DJANGO_SUPERUSER_USERNAME }}','admin','admin','${{ secrets.DJANGO_SUPERUSER_EMAIL }}',true, true)"
-            # docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d postgres -c "INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES('${{ secrets.ALBERT_PASS }}', NULL, false,'Albert','Lopez','Fernandez''newlog@gmail.com',false, true, now())"
-            # docker-compose -f docker-compose.prod.yml exec db psql -U postgres -d postgres -c "INSERT INTO auth_user (password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) VALUES('${{ secrets.ARTUR_PASS }}', NULL, false,'Artur','Lopez','Fernandez''newbie@gmail.com',false, true, now())"
-
+            echo "from django.contrib.auth.models import User; User.objects.create_superuser('${{ secrets.DJANGO_SUPERUSER_USERNAME }}', '${{ secrets.DJANGO_SUPERUSER_EMAIL }}', '${{ secrets.DJANGO_SUPERUSER_PASSWORD }}')" | python manage.py shell
             
             
