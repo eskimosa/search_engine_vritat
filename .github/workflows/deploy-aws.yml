@@ -76,6 +76,10 @@ jobs:
       
       
       - name: Insert initial data if empty DB
+        env:
+          DJANGO_SUPERUSER_PASSWORD: ${{ secrets.DJANGO_SUPERUSER_PASSWORD }}
+          DJANGO_SUPERUSER_USERNAME: ${{ secrets.DJANGO_SUPERUSER_USERNAME }}
+          DDJANGO_SUPERUSER_EMAIL: ${{ secrets.DDJANGO_SUPERUSER_EMAIL }}
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -85,8 +89,8 @@ jobs:
           script: |
             cd /home/ec2-user/search_engine_vritat
             docker-compose -f docker-compose.prod.yml run --rm backend python manage.py migrate
-            sh -c "DJANGO_SUPERUSER_PASSWORD=${{ secrets.DJANGO_SUPERUSER_PASSWORD }} \
-            python manage.py createsuperuser --noinput --username '${{ secrets.DJANGO_SUPERUSER_USERNAME }}' --email '${{ secrets.DJANGO_SUPERUSER_EMAIL }}'"
-            # echo "from django.contrib.auth.models import User; User.objects.create_superuser('${{ secrets.DJANGO_SUPERUSER_USERNAME }}', '${{ secrets.DJANGO_SUPERUSER_EMAIL }}', '${{ secrets.DJANGO_SUPERUSER_PASSWORD }}')" | python3 manage.py shell
+            sh -c "DJANGO_SUPERUSER_PASSWORD=$DJANGO_SUPERUSER_PASSWORD \
+            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py createsuperuser --noinput --username '$DJANGO_SUPERUSER_USERNAME' --email '$DJANGO_SUPERUSER_EMAIL'"
+            # echo "from django.contrib.auth.models import User; User.objects.create_superuser('$DJANGO_SUPERUSER_USERNAME', '${{ secrets.DJANGO_SUPERUSER_EMAIL }}', '${{ secrets.DJANGO_SUPERUSER_PASSWORD }}')" | python3 manage.py shell
             
             
