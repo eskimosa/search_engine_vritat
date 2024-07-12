@@ -72,19 +72,5 @@ jobs:
           script: |
             cd /home/ec2-user/search_engine_vritat
             docker-compose -f docker-compose.prod.yml up -d
-            docker ps
-      
-      
-      - name: Insert initial data if empty DB
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd /home/ec2-user/search_engine_vritat
             docker-compose -f docker-compose.prod.yml run --rm backend python manage.py migrate
-            echo "from django.contrib.auth.models import User; User.objects.create_superuser('${{ secrets.DJANGO_SUPERUSER_USERNAME }}', '${{ secrets.DJANGO_SUPERUSER_EMAIL }}', '${{ secrets.DJANGO_SUPERUSER_PASSWORD }}')" | python manage.py shell
-            
-            
+            docker ps
