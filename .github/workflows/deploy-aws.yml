@@ -86,5 +86,10 @@ jobs:
             cd /home/ec2-user/search_engine_vritat
             docker-compose -f docker-compose.prod.yml run --rm backend python manage.py migrate
             docker-compose -f docker-compose.prod.yml run --rm backend python manage.py create_users
+            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py help
+            docker-compose logs backend
+            docker-compose -f docker-compose.prod.yml run --rm backend bash
+            python manage.py help
+            
             
             
