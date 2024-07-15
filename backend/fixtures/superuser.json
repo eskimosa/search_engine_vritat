@@ -1,0 +1,21 @@
+[
+  {
+    "model": "auth.User",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$600000$tA7KM3aKG21TQkjWOmBYIt$avnL+saPzp/VqocqBbNHEMkv6KizAenIPP7ITRkSX+s=",
+      "last_login": null,
+      "is_superuser": true,
+      "username": "eskimosa",
+      "first_name": "",
+      "last_name": "",
+      "email": "esskimosa@gmail.com",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-07-15T00:00:00Z",
+      "name": "",
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]
