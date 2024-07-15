@@ -13,7 +13,6 @@
       "is_staff": true,
       "is_active": true,
       "date_joined": "2024-07-15T00:00:00Z",
-      "name": "",
       "groups": [],
       "user_permissions": []
     }
@@ -32,7 +31,6 @@
       "is_staff": true,
       "is_active": true,
       "date_joined": "2024-07-15T00:00:00Z",
-      "name": "",
       "groups": [],
       "user_permissions": []
     }
