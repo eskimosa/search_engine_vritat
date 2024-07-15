@@ -1,11 +1,11 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
+import os
 
 class Command(BaseCommand):
     help = 'Creates initial users for the application'
 
-    def create_users(self, superuser_username, superuser_email, superuser_password, user1_username, user1_email,
-                     user1_password, user2_username, user2_email, user2_password):
+    def create_users(self, superuser_username, superuser_email, superuser_password, user1_username, user1_email, user1_password, user2_username, user2_email, user2_password):
         if not User.objects.filter(username=superuser_username).exists():
             User.objects.create_superuser(superuser_username, superuser_email, superuser_password)
             self.stdout.write(self.style.SUCCESS(f'Superuser "{superuser_username}" created successfully'))
@@ -35,7 +35,7 @@ class Command(BaseCommand):
         user2_email = os.getenv('USER_2_EMAIL')
         user2_password = os.getenv('USER_2_PASSWORD')
 
-        self.create_users(superuser_username, superuser_email, superuser_password, user1_username, user1_email,
-                          user1_password, user2_username, user2_email, user2_password)
+        self.create_users(superuser_username, superuser_email, superuser_password, user1_username, user1_email, user1_password, user2_username, user2_email, user2_password)
+
 
 
