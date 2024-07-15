@@ -73,6 +73,6 @@ jobs:
             cd /home/ec2-user/search_engine_vritat
             docker-compose -f docker-compose.prod.yml up -d
             docker-compose -f docker-compose.prod.yml run --rm backend python manage.py migrate
-            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py loaddata superuser
-            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py loaddata base_users
+            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py loaddata backend/fixtures/superuser.json
+            docker-compose -f docker-compose.prod.yml run --rm backend python manage.py loaddata backend/fixtures/base_users.json
             docker ps
