@@ -32,7 +32,7 @@ services:
       dockerfile: compose/prod/Dockerfile_frontend
     image: esskimosa/vritat-frontend:latest
     env_file:
-      - ./frontend/.env.production
+      - ./frontend/.envs/.prod/.react
     ports:
       - "3001:3000"
     volumes:

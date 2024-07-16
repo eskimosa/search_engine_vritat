@@ -20,7 +20,7 @@ services:
       context: .
       dockerfile: compose/dev/Dockerfile_frontend
     env_file:
-      - frontend/.env.dev
+      - frontend/.envs/.dev/.react
     ports:
       - "3001:3000"
     volumes:
