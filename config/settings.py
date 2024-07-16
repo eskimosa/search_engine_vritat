@@ -13,10 +13,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
-import logging
 from django.core.management.utils import get_random_secret_key
 
-logger = logging.getLogger(__name__)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -32,9 +30,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default=get_random_secret_key()
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,13.53.206.156,127.0.0.1,ec2-13-53-206-156.eu-north-1.compute.amazonaws.com,13.51.155.141').split(',')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,13.51.155.141,news-management.vritat.com').split(',')
 
-LOGGING = {
+'''LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {
@@ -58,6 +56,7 @@ LOGGING = {
         },
     },
 }
+'''
 
 
 # Application definition
@@ -81,7 +80,7 @@ INSTALLED_APPS = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://13.53.206.156,http://127.0.0.1:8000,http://13.51.155.141:8000,http://localhost:3001,http://13.51.155.141:3001,http://13.51.155.141:3000,http://13.51.155.141:8080,https://13.51.155.141,https://13.51.155.141:8000,https://13.51.155.141:3000,https://13.51.155.141:3001').split(',')
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://127.0.0.1:8000,http://13.51.155.141:8000,http://localhost:3001,http://13.51.155.141:3001,http://13.51.155.141:8080,https://13.51.155.141:8000,https://13.51.155.141:3000,https://news-management.vritat.com:3001,https://news-management.vritat.com:3000,https://news-management.vritat.com:8000').split(',')
 
 CORS_ALLOW_HEADERS = (
     "accept",
@@ -106,7 +105,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://13.53.206.156,http://13.51.155.141:3000,http://13.51.155.141:3001,https://13.51.155.141,https://13.51.155.141:8000,https://13.51.155.141:3000,https://13.51.155.141:3001').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://13.51.155.141:3000,http://13.51.155.141:3001,https://13.51.155.141:8000,https://news-management.vritat.com:3000,https://news-management.vritat.com:3001').split(',')
 
 ROOT_URLCONF = 'config.urls'
 
@@ -154,8 +153,6 @@ SIMPLE_JWT = {
 'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 'TOKEN_TYPE_CLAIM': 'token_type',
 }
-
-logger.error(f"JWT Signing Key: {SIMPLE_JWT['SIGNING_KEY']}")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
