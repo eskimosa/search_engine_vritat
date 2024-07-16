@@ -1,16 +1,6 @@
 version: '3.8'
 
 services:
-  nginx:
-    build:
-      context: .
-      dockerfile: compose/prod/Dockerfile_nginx
-    image: esskimosa/vritat-nginx:latest
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-
   backend:
     build:
       context: .
