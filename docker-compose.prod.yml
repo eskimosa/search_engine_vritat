@@ -37,5 +37,15 @@ services:
     ports:
       - "5434:5432"
 
+  nginx:
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    image: esskimosa/vritat-nginx:latest
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
 volumes:
   postgres_data:
