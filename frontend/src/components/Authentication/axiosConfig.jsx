@@ -1,5 +1,5 @@
     import axios from 'axios';
-    import baseUrl from '../shared/baseUrl';
+    import baseUrl from 'search_engine_vritat/frontend/src/shared';
 
     const api = axios.create({
       baseURL: `${baseUrl}/api`,
