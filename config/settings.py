@@ -30,33 +30,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', default=get_random_secret_key()
 DEBUG = os.environ.get('DJANGO_DEBUG', 'False') == 'True'
 
 
-ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,13.51.155.141,news-management.vritat.com').split(',')
-
-'''LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'backend.log',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
-        '': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-        },
-    },
-}
-'''
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,13.51.155.141,news-management.vritat').split(',')
 
 
 # Application definition
@@ -80,7 +54,7 @@ INSTALLED_APPS = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://localhost:8000,http://localhost:8080,http://localhost:3000,http://127.0.0.1:8000,http://13.51.155.141:8000,http://localhost:3001,http://13.51.155.141:3001,http://13.51.155.141:8080,https://13.51.155.141:8000,https://13.51.155.141:3000,https://13.51.155.141:3001,http://news-management.vritat.com:3000,http://news-management.vritat.com:3001,http://news-management.vritat.com:8000,https://news-management.vritat.com:3000,https://news-management.vritat.com:3001,https://news-management.vritat.com:8000').split(',')
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')
 
 CORS_ALLOW_HEADERS = (
     "accept",
@@ -116,7 +90,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://13.51.155.141:3000,http://13.51.155.141:3001,http://13.51.155.141:8000,https://13.51.155.141:8000,https://13.51.155.141:3000,https://13.51.155.141:3001,http://news-management.vritat.com:3000,http://news-management.vritat.com:3001,http://news-management.vritat.com:8000,https://news-management.vritat.com:3000,https://news-management.vritat.com:3001,https://news-management.vritat.com:8000').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://13.51.155.141:3000,http://13.51.155.141:3001,https://13.51.155.141:3000,https://13.51.155.141:3001,http://news-management.vritat.com:3000,http://news-management.vritat.com:3001,https://news-management.vritat.com:3000,https://news-management.vritat.com:3001').split(',')
 
 ROOT_URLCONF = 'config.urls'
 
