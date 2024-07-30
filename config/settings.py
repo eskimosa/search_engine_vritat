@@ -58,7 +58,7 @@ CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://news-manag
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',  # for development
-    'http://news-management.vritat.com'  # for production
+    'http://news-management.vritat.com:3001'  # for production
 ]
 
 CORS_ALLOW_HEADERS = [
