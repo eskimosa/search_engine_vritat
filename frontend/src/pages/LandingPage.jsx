@@ -15,7 +15,6 @@ const LandingPage = () => {
 
   useEffect(() => {
     const isAuthenticated = !!localStorage.getItem('access_token');
-    // If authenticated, redirect to the home page
     if (isAuthenticated) {
         navigate('/news_dash');
     }

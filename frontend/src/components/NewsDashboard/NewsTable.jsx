@@ -16,6 +16,7 @@ import ScheduleDialog from "./DateTimePicker";
 import ArchiveMenu from "./ArchiveMenu";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import FilterMenu from "./FilterMenu";
+import baseUrl from "../shared/baseUrl";
 
 
 const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick = handleSingleArchiveClick }) => {
@@ -30,7 +31,7 @@ const NewsTable = ({ filterCondition, showArchiveButton = true, onArchiveClick =
     try {
       setIsLoading(true);
       console.log("Fetching news");
-      const response = await axios.get(`${process.env.REACT_APP_BACKEND_API_BASE_URL}/api/list_news/`);
+      const response = await axios.get(`${baseUrl}/api/list_news/`);
       const filteredData = response.data.filter(filterCondition);
       setData(filteredData);
       console.log(filteredData);
