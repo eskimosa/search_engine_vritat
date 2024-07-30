@@ -37,5 +37,18 @@ services:
     ports:
       - "5434:5432"
 
+  nginx:
+    build:
+      context: .
+      dockerfile: compose/prod/Dockerfile_ngnix
+    image: esskimosa/vritat-nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./compose/prod/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - frontend
+      - backend
+
 volumes:
   postgres_data:
