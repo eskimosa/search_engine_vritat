@@ -40,7 +40,7 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: compose/prod/Dockerfile_ngnix
+      dockerfile: compose/prod/Dockerfile_nginx
     image: esskimosa/vritat-nginx:latest
     ports:
       - "80:80"
