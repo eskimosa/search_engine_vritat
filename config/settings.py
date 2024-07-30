@@ -54,12 +54,8 @@ INSTALLED_APPS = [
 
 ]
 
-CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://news-management.vritat.com:8000,http://localhost:3000,http://localhost:3001,http://13.51.155.141:3001,https://13.51.155.141:3000,https://13.51.155.141:3001,http://news-management.vritat.com:3000,http://news-management.vritat.com:3001,https://news-management.vritat.com:3000,https://news-management.vritat.com:3001').split(',')
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://news-management.vritat.com:8000,http://news-management.vritat.com:3001,http://localhost:3000,http://localhost:3001,http://13.51.155.141:3001').split(',')
 
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',  # for development
-    'http://news-management.vritat.com:3001'  # for production
-]
 
 CORS_ALLOW_HEADERS = [
     'Authorization',
@@ -103,7 +99,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
 ]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://news-management.vritat.com:8000,http://localhost:3000,http://localhost:3001,http://13.51.155.141:3000,http://13.51.155.141:3001,https://13.51.155.141:3000,https://13.51.155.141:3001,http://news-management.vritat.com:3000,http://news-management.vritat.com:3001,https://news-management.vritat.com:3000,https://news-management.vritat.com:3001').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'http://news-management.vritat.com:8000,http://news-management.vritat.com:3001,http://localhost:3000,http://localhost:3001,http://13.51.155.141:3001').split(',')
 
 ROOT_URLCONF = 'config.urls'
 
