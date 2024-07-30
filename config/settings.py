@@ -56,14 +56,27 @@ INSTALLED_APPS = [
 
 CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS', 'http://news-management.vritat.com:8000,http://localhost:3000,http://localhost:3001,http://13.51.155.141:3001,https://13.51.155.141:3000,https://13.51.155.141:3001,http://news-management.vritat.com:3000,http://news-management.vritat.com:3001,https://news-management.vritat.com:3000,https://news-management.vritat.com:3001').split(',')
 
-CORS_ALLOW_HEADERS = (
-    "accept",
-    "authorization",
-    "content-type",
-    "user-agent",
-    "x-csrftoken",
-    "x-requested-with",
-)
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:3000',  # for development
+    'http://news-management.vritat.com'  # for production
+]
+
+CORS_ALLOW_HEADERS = [
+    'Authorization',
+    'Content-Type',
+    'X-Requested-With',
+    'Accept',
+    'Origin',
+    'User-Agent',
+    'DNT',
+    'Cache-Control',
+    'X-Mx-ReqToken',
+    'Keep-Alive',
+    'X-Requested-With',
+    'If-Modified-Since',
+    'X-CSRFToken',
+    'Access-Control-Allow-Origin',
+]
 # CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_METHODS = [
