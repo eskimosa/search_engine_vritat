@@ -2,7 +2,7 @@ import isProd from "./ProdDetect";
 
 let baseUrl = '';
 if (isProd()) {
-    baseUrl = 'http://13.51.155.141:8000';
+    baseUrl = 'http://news-management.vritat.com:8000';
 } else {
     baseUrl = 'http://localhost:8000';
 }
