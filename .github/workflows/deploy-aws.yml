@@ -22,22 +22,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      
-      - name: Write and transfer .env file to EC2 instance
-        env:
-          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
-        run: |
-          echo "$PRODUCTION_ENV" > /home/runner/.env
-          # echo "$PRODUCTION_ENV" > /home/runner/work/search_engine_vritat/search_engine_vritat/.env
-          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
-          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
 
-
-      - name: Build and push backend image
-        run: |
-          DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml build
-          docker push esskimosa/vritat-backend:latest
-          docker push esskimosa/vritat-frontend:latest
           
       - name: Write EC2 Fingerprint to the runner known hosts
         run: |
@@ -50,6 +35,20 @@ jobs:
           echo "${{ secrets.EC2_PRIVATE_KEY }}" > /home/runner/.ssh/id_ed25519
           chmod 600 /home/runner/.ssh/id_ed25519
           
+      - name: Write and transfer .env file to EC2 instance
+        env:
+          PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
+        run: |
+          echo "$PRODUCTION_ENV" > /home/runner/.env
+          # echo "$PRODUCTION_ENV" > /home/runner/work/search_engine_vritat/search_engine_vritat/.env
+          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
+
+      - name: Build and push backend image
+        run: |
+          DOCKER_BUILDKIT=1 docker-compose -f docker-compose.prod.yml build
+          docker push esskimosa/vritat-backend:latest
+          docker push esskimosa/vritat-frontend:latest
           
       - name: SSH into EC2, stop/pull/start container
         uses: appleboy/ssh-action@master
