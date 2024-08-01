@@ -44,8 +44,9 @@ jobs:
         env:
           PRODUCTION_ENV: ${{ secrets.PRODUCTION_ENV }}
         run: |
-          echo "$PRODUCTION_ENV" > /home/runner/.env
-          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
+          # echo "$PRODUCTION_ENV" > /home/runner/.env
+          echo "$PRODUCTION_ENV" > /home/runner/work/search_engine_vritat/search_engine_vritat/.env
+          scp -o StrictHostKeyChecking=no -i /home/runner/.ssh/id_ed25519 /home/runner/work/search_engine_vritat/search_engine_vritat/.env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ec2-user/search_engine_vritat/.env
           ssh ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }} "ls /home/ec2-user/"
           
       - name: SSH into EC2, stop/pull/start container
