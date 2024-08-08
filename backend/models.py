@@ -6,7 +6,7 @@ class News(models.Model):
     source = models.CharField(max_length=250)
     category = models.CharField(max_length=250)
     title = models.TextField()
-    link = models.URLField()
+    link = models.URLField(max_length=500)
     published = models.DateField()
     summary = models.TextField()
     content = models.TextField()

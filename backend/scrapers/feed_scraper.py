@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from backend.scrapers.tools.sentiment_analysis.sentiment_analysis import SentimentAnalyzer
 from .tools.save_news.save_news import SaveNews
 
+
 class Scraper(ABC):
     def __init__(self, urls, threshold):
         self.sentiment_analyzer = SentimentAnalyzer()
@@ -29,10 +30,6 @@ class Scraper(ABC):
         saved_news, status_code = self.save_news.save_news(analyzed_news)
         return saved_news, status_code
 
-
     @abstractmethod
     def extract_news_from_source(self, urls):
         pass
-
-
-
